@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hiersoft — logiciels et stockage réseau</title>
+<meta name="description" content="Hiersoft conçoit Hiersoft NasOS, un système de NAS simple, sécurisé et complet : ZFS, Btrfs, snapshots, applications, VPN.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+:root{--bg:#071624;--bg2:#0b2033;--card:#0e2a40;--line:#1d4762;--text:#e6f3fa;--muted:#8fb0c3;--cyan:#3fd0ff;--amber:#ffb547}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text)}
+a{color:var(--cyan);text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:rgba(7,22,36,.92);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
+header .wrap{display:flex;align-items:center;gap:14px;height:64px}
+header img{width:34px;height:34px}
+.brand{font-weight:700;font-size:20px;letter-spacing:.3px}
+.brand .os{color:var(--amber)}.brand .nas{color:var(--cyan)}
+nav{margin-left:auto;display:flex;gap:22px;font-size:15px}
+nav a{color:var(--muted)}nav a:hover{color:var(--text)}
+.hero{padding:90px 0 70px;background:radial-gradient(ellipse at 70% 0%,#123a57 0%,transparent 60%)}
+.hero .wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center}
+h1{font-size:44px;line-height:1.15;margin:0 0 18px}
+h1 span{color:var(--cyan)}
+.lead{font-size:19px;color:var(--muted);margin:0 0 28px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 22px;border-radius:8px;font-weight:600;border:1px solid var(--cyan)}
+.btn.primary{background:var(--cyan);color:#06202f}
+.hero img{width:100%;max-width:340px;justify-self:center;filter:drop-shadow(0 0 40px rgba(63,208,255,.25))}
+section{padding:70px 0;border-top:1px solid var(--line)}
+section:nth-of-type(even){background:var(--bg2)}
+h2{font-size:30px;margin:0 0 10px}
+.sub{color:var(--muted);margin:0 0 34px;max-width:720px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px}
+.card h3{margin:0 0 8px;font-size:18px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.card .k{color:var(--amber);font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);font-size:15px}
+th{color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+.tablewrap{overflow-x:auto}
+.contact{text-align:center}
+.contact .btn{margin-top:8px}
+footer{padding:28px 0;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media (max-width:760px){
+  .hero{padding:50px 0}
+  .hero .wrap{grid-template-columns:1fr}
+  .hero img{max-width:180px;order:-1}
+  h1{font-size:32px}
+  nav{display:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <img src="favicon.svg" alt="">
+    <div class="brand">Hiersoft</div>
+    <nav>
+      <a href="#entreprise">Entreprise</a>
+      <a href="#nasos">NasOS</a>
+      <a href="#config">Configuration</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Vos données, <span>chez vous</span>, protégées et simples à gérer.</h1>
+      <p class="lead">Hiersoft conçoit des logiciels pour le stockage réseau. Notre système <strong>Hiersoft NasOS</strong> transforme un PC ou un serveur en NAS complet : partages, sauvegardes, snapshots, applications et accès distant sécurisé.</p>
+      <div class="btns">
+        <a class="btn primary" href="#nasos">Découvrir NasOS</a>
+        <a class="btn" href="#contact">Nous contacter</a>
+      </div>
+    </div>
+    <img src="logo.svg" alt="Logo Hiersoft NasOS">
+  </div>
+</div>
+
+<section id="entreprise">
+  <div class="wrap">
+    <h2>Hiersoft</h2>
+    <p class="sub">Une entreprise française qui développe des solutions logicielles fiables, sobres et respectueuses de vos données : pas d'abonnement obligatoire, pas de dépendance à un cloud tiers.</p>
+    <div class="grid">
+      <div class="card"><div class="k">Maîtrise</div><h3>Vos données restent chez vous</h3><p>Tout fonctionne sur votre matériel. L'accès distant passe par votre propre VPN.</p></div>
+      <div class="card"><div class="k">Fiabilité</div><h3>Technologies éprouvées</h3><p>Debian, ZFS, Btrfs, Samba, WireGuard : des briques robustes, utilisées dans les plus grands centres de données.</p></div>
+      <div class="card"><div class="k">Simplicité</div><h3>Une interface claire</h3><p>Installation guidée, assistant d'initialisation, interface en 5 langues, du particulier à la petite entreprise.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="nasos">
+  <div class="wrap">
+    <h2>Hiersoft <span style="color:var(--cyan)">Nas</span><span style="color:var(--amber)">OS</span></h2>
+    <p class="sub">Un système de NAS dans l'esprit de ZimaOS pour la simplicité, avec la puissance de gestion du stockage de TrueNAS.</p>
+    <div class="grid">
+      <div class="card"><h3>Stockage ZFS et Btrfs</h3><p>RAID1, RAID10, RAID-Z, compression, chiffrement, datasets, zvols, import de volumes existants.</p></div>
+      <div class="card"><h3>Snapshots et corbeille</h3><p>Snapshots automatiques quotidiens, « Versions précédentes » sous Windows, corbeille des partages.</p></div>
+      <div class="card"><h3>Partages</h3><p>SMB (Windows, macOS, Time Machine), NFS, iSCSI et liens de partage sécurisés.</p></div>
+      <div class="card"><h3>Applications</h3><p>Catalogue d'applications Docker installables en un clic, réglables comme sur ZimaOS.</p></div>
+      <div class="card"><h3>Accès distant</h3><p>VPN WireGuard intégré avec QR code, DNS dynamique, certificat Let's Encrypt automatique.</p></div>
+      <div class="card"><h3>Supervision</h3><p>Santé des disques (SMART), alertes par e-mail, scrub, mises à jour de sécurité automatiques.</p></div>
+      <div class="card"><h3>Explorateur intégré</h3><p>Fichiers, lecture vidéo et musique dans le navigateur, avec conversion à la volée.</p></div>
+      <div class="card"><h3>Sécurité</h3><p>Pare-feu, HTTPS, limitation des tentatives de connexion, disque système en RAID1 possible.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="config">
+  <div class="wrap">
+    <h2>Configuration requise</h2>
+    <p class="sub">NasOS s'installe sur un PC ou un serveur x86-64, depuis une clé USB.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th></th><th>Minimum</th><th>Recommandé</th></tr>
+        <tr><td>Processeur</td><td>x86-64, 2 cœurs</td><td>4 cœurs ou plus</td></tr>
+        <tr><td>Mémoire (Btrfs)</td><td>4 Go</td><td>8 Go</td></tr>
+        <tr><td>Mémoire (ZFS)</td><td>4 Go</td><td>8 Go, 16 Go avec beaucoup d'applications</td></tr>
+        <tr><td>Disque système</td><td>32 Go (SSD conseillé)</td><td>64 Go ; 128 Go pour y installer les applications</td></tr>
+        <tr><td>Démarrage</td><td colspan="2">BIOS ou UEFI, Secure Boot désactivé</td></tr>
+        <tr><td>Réseau</td><td>Ethernet 1 Gbit/s</td><td>2,5 Gbit/s ou plus</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="wrap">
+    <h2>Contact</h2>
+    <p class="sub" style="margin:0 auto 16px">Une question, une démonstration, un projet d'installation ? Écrivez-nous.</p>
+    <a class="btn primary" href="mailto:hiersoft@salade.io">hiersoft@salade.io</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Hiersoft</span>
+    <span>Hiersoft NasOS est basé sur Debian GNU/Linux.</span>
+  </div>
+</footer>
+</body>
+</html>
