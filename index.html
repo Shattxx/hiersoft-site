@@ -6,148 +6,213 @@
 <title>Hiersoft — services informatiques et logiciels</title>
 <meta name="description" content="Hiersoft : maintenance, conseil, support et développement d'outils logiciels. Éditeur de Hiersoft NasOS, système de stockage réseau.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/rajdhani-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-:root{--bg:#071624;--bg2:#0b2033;--card:#0e2a40;--line:#1d4762;--text:#e6f3fa;--muted:#8fb0c3;--cyan:#3fd0ff;--amber:#ffb547}
+@font-face{font-family:Rajdhani;font-weight:300;font-display:swap;src:url(fonts/rajdhani-latin-300-normal.woff2) format("woff2")}
+@font-face{font-family:Rajdhani;font-weight:500;font-display:swap;src:url(fonts/rajdhani-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:Rajdhani;font-weight:600;font-display:swap;src:url(fonts/rajdhani-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Share Tech Mono";font-weight:400;font-display:swap;src:url(fonts/share-tech-mono-latin-400-normal.woff2) format("woff2")}
+:root{--bg:#06121c;--bg2:#081a28;--line:rgba(63,208,255,.16);--line2:rgba(230,243,250,.10);--text:#e6f3fa;--muted:#8aa9bc;--dim:#5d7b8e;--cyan:#3fd0ff;--amber:#ffb547;
+  --display:Rajdhani,"Segoe UI",system-ui,sans-serif;--mono:"Share Tech Mono",ui-monospace,Consolas,monospace;--body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text)}
-a{color:var(--cyan);text-decoration:none}
-.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
-header{position:sticky;top:0;z-index:10;background:rgba(7,22,36,.92);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
-header .wrap{display:flex;align-items:center;gap:14px;height:64px}
-header img{width:34px;height:34px}
-.brand{font-weight:700;font-size:20px;letter-spacing:.3px}
-.brand .os{color:var(--amber)}.brand .nas{color:var(--cyan)}
-nav{margin-left:auto;display:flex;gap:22px;font-size:15px}
-nav a{color:var(--muted)}nav a:hover{color:var(--text)}
-.hero{padding:90px 0 70px;background:radial-gradient(ellipse at 70% 0%,#123a57 0%,transparent 60%)}
-.hero .wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center}
-h1{font-size:44px;line-height:1.15;margin:0 0 18px}
-h1 span{color:var(--cyan)}
-.lead{font-size:19px;color:var(--muted);margin:0 0 28px}
-.btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn{display:inline-block;padding:12px 22px;border-radius:8px;font-weight:600;border:1px solid var(--cyan)}
-.btn.primary{background:var(--cyan);color:#06202f}
-.hero img{width:100%;max-width:340px;justify-self:center;filter:drop-shadow(0 0 40px rgba(63,208,255,.25))}
-section{padding:70px 0;border-top:1px solid var(--line)}
-section:nth-of-type(even){background:var(--bg2)}
-h2{font-size:30px;margin:0 0 10px}
-.sub{color:var(--muted);margin:0 0 34px;max-width:720px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px}
-.card h3{margin:0 0 8px;font-size:18px}
-.card p{margin:0;color:var(--muted);font-size:15px}
-.card .k{color:var(--amber);font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase}
-table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);font-size:15px}
-th{color:var(--muted);font-weight:600}
-tr:last-child td{border-bottom:0}
-.tablewrap{overflow-x:auto}
-.contact{text-align:center}
-details summary::marker{color:var(--cyan)}
-.contact .btn{margin-top:8px}
-footer{padding:28px 0;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
-@media (max-width:760px){
-  .hero{padding:50px 0}
-  .hero .wrap{grid-template-columns:1fr}
-  .hero img{max-width:180px;order:-1}
-  h1{font-size:32px}
-  nav{display:none}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+.mono{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.mono b{color:var(--amber);font-weight:400}
+header{position:fixed;inset:0 0 auto;z-index:20;background:rgba(6,18,28,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line2)}
+header .wrap{display:flex;align-items:stretch;height:62px}
+.logo{display:flex;align-items:center;gap:12px;font:600 19px var(--display);letter-spacing:.12em;text-transform:uppercase;margin-right:auto}
+.logo img{width:30px;height:30px}
+nav{display:flex}
+nav a{display:flex;align-items:center;padding:0 20px;font:500 14px var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);border-left:1px solid var(--line2);position:relative;transition:color .2s}
+nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--amber);transform:scaleX(0);transition:transform .25s}
+nav a:hover{color:var(--text)}nav a:hover::after{transform:scaleX(1)}
+nav a.cta{color:var(--bg);background:var(--cyan);border:0;margin-left:14px}
+nav a.cta::after{display:none}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 0 60px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 78% 40%,rgba(63,208,255,.13),transparent 70%),linear-gradient(transparent 95%,rgba(63,208,255,.05) 95%) 0 0/100% 48px;pointer-events:none}
+.hero h1{font:300 clamp(56px,8.6vw,138px)/.88 var(--display);max-width:66%;letter-spacing:-.01em;margin:22px 0 0;text-transform:uppercase}
+.hero h1 span{display:block}
+.hero h1 .c{color:var(--cyan)}
+.hero h1 .indent{padding-left:1.15em}
+.hero-foot{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;margin-top:56px;align-items:end;border-top:1px solid var(--line2);padding-top:28px}
+.hero-foot p{margin:0;font-size:19px;color:var(--muted);max-width:560px}
+.hero-foot p strong{color:var(--text);font-weight:600}
+.btns{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;font:600 14px var(--display);letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--cyan);color:var(--cyan);transition:.2s}
+.btn:hover{background:rgba(63,208,255,.1)}
+.btn.solid{background:var(--cyan);color:var(--bg)}
+.btn.solid:hover{background:#7fe0ff}
+.hero-logo{position:absolute;right:5%;top:50%;transform:translateY(-62%);width:min(22vw,300px);opacity:.9;filter:drop-shadow(0 0 60px rgba(63,208,255,.25))}
+section{padding:120px 0;border-top:1px solid var(--line2)}
+.head{display:grid;grid-template-columns:220px 1fr;gap:40px;margin-bottom:64px}
+.head h2{font:300 clamp(40px,5.5vw,76px)/.95 var(--display);text-transform:uppercase;margin:0}
+.head h2 .c{color:var(--cyan)}.head h2 .a{color:var(--amber)}
+.statement{font:300 clamp(26px,3vw,40px)/1.25 var(--display);color:var(--muted);max-width:1000px;margin:0 0 0 260px}
+.statement em{font-style:normal;color:var(--text)}
+.rows{border-top:1px solid var(--line2)}
+.row{display:grid;grid-template-columns:220px 1fr 1.3fr;gap:40px;padding:34px 0;border-bottom:1px solid var(--line2);transition:background .25s}
+.row:hover{background:linear-gradient(90deg,rgba(63,208,255,.06),transparent 70%)}
+.row h3{font:500 30px/1.1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0}
+.row p{margin:0;color:var(--muted)}
+.shot{position:relative;border:1px solid var(--line);background:var(--bg2);padding:10px;margin:0}
+.shot::before,.shot::after{content:"";position:absolute;width:26px;height:26px;border:2px solid var(--cyan)}
+.shot::before{top:-2px;left:-2px;border-right:0;border-bottom:0}
+.shot::after{bottom:-2px;right:-2px;border-left:0;border-top:0}
+.shot figcaption{margin-top:10px}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:22px}
+.specs{display:grid;grid-template-columns:repeat(3,1fr);margin-top:72px;border-top:1px solid var(--line2)}
+.spec{padding:30px 28px;border-bottom:1px solid var(--line2);border-left:1px solid var(--line2)}
+.spec:nth-child(3n+1){padding-left:0;border-left:0}
+.spec h4{font:600 20px var(--display);text-transform:uppercase;letter-spacing:.06em;margin:10px 0 8px}
+.spec p{margin:0;color:var(--muted);font-size:15px}
+details.req{margin-top:56px;border:1px solid var(--line2)}
+details.req summary{cursor:pointer;padding:20px 24px;font:600 16px var(--display);letter-spacing:.14em;text-transform:uppercase;list-style:none;display:flex;justify-content:space-between}
+details.req summary::-webkit-details-marker{display:none}
+details.req summary::after{content:"+";color:var(--cyan)}
+details.req[open] summary::after{content:"−"}
+table{width:100%;border-collapse:collapse}
+td,th{padding:13px 24px;border-top:1px solid var(--line2);text-align:left;font-size:15px}
+th{font-family:var(--mono);font-weight:400;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+td:first-child{color:var(--muted)}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line2)}
+.trio div{padding:36px 30px 10px 0}
+.trio div+div{padding-left:30px;border-left:1px solid var(--line2)}
+.trio h3{font:500 28px var(--display);text-transform:uppercase;margin:12px 0 10px}
+.trio p{color:var(--muted);margin:0}
+.contact h2{font:300 clamp(48px,8vw,124px)/.9 var(--display);text-transform:uppercase;margin:18px 0 40px}
+.contact h2 .c{color:var(--cyan)}
+.mail{font:300 clamp(26px,3.4vw,44px) var(--display);color:var(--cyan);border-bottom:1px solid var(--line);padding-bottom:6px}
+.mail:hover{color:var(--amber);border-color:var(--amber)}
+footer{border-top:1px solid var(--line2);padding:30px 0}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a:hover{color:var(--text)}
+@media (prefers-reduced-motion:no-preference){
+  .reveal{animation:up .9s cubic-bezier(.2,.7,.2,1) both}
+  .hero h1 span:nth-child(2){animation-delay:.08s}.hero h1 span:nth-child(3){animation-delay:.16s}.hero h1 span:nth-child(4){animation-delay:.24s}
+  @keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+}
+@media (max-width:1100px){.hero-logo{display:none}.hero h1{max-width:none}}
+@media (max-width:900px){
+  nav a:not(.cta){display:none}
+  .hero-logo{display:none}
+  .hero h1{max-width:none}
+  .hero-foot,.head,.row{grid-template-columns:1fr;gap:14px}
+  .statement{margin-left:0}
+  .gallery,.specs,.trio{grid-template-columns:1fr}
+  .spec,.spec:nth-child(3n+1),.trio div,.trio div+div{padding:24px 0;border-left:0}
+  .btns{justify-content:flex-start}
+  section{padding:84px 0}
+  .wrap{padding:0 18px}
+  td,th{padding:11px 12px}
 }
 </style>
 </head>
 <body>
 <header>
   <div class="wrap">
-    <img src="favicon.svg" alt="">
-    <div class="brand">Hiersoft</div>
+    <a class="logo" href="#"><img src="favicon.svg" alt="">Hiersoft</a>
     <nav>
       <a href="#services">Services</a>
-      <a href="#nasos">Hiersoft NasOS</a>
-      <a href="#approche">Notre approche</a>
-      <a href="#contact">Contact</a>
+      <a href="#nasos">NasOS</a>
+      <a href="#approche">Approche</a>
+      <a class="cta" href="#contact">Contact</a>
     </nav>
   </div>
 </header>
 
 <div class="hero">
   <div class="wrap">
-    <div>
-      <h1>Votre partenaire <span>informatique</span>, du conseil au logiciel sur mesure.</h1>
-      <p class="lead">Hiersoft accompagne les particuliers, les indépendants et les petites entreprises : maintenance, conseil, support et développement d'outils logiciels. Nous éditons aussi <strong>Hiersoft NasOS</strong>, notre système de stockage réseau.</p>
-      <div class="btns">
-        <a class="btn primary" href="#services">Nos services</a>
-        <a class="btn" href="#contact">Nous contacter</a>
-      </div>
+    <div class="mono reveal"><b>●</b> Hiersoft — services informatiques &amp; logiciels</div>
+    <h1>
+      <span class="reveal">Vos données.</span>
+      <span class="reveal indent c">Chez vous.</span>
+      <span class="reveal">Bien</span>
+      <span class="reveal indent">gérées.</span>
+    </h1>
+    <div class="hero-foot reveal">
+      <p>Maintenance, conseil, support et développement d'outils sur mesure pour les particuliers, les indépendants et les petites entreprises. Éditeur de <strong>Hiersoft NasOS</strong>, notre système de stockage réseau.</p>
+      <div class="btns"><a class="btn solid" href="#services">Nos services</a><a class="btn" href="#nasos">Découvrir NasOS</a></div>
     </div>
-    <img src="logo.svg" alt="Logo Hiersoft">
   </div>
+  <img class="hero-logo" src="logo.svg" alt="">
 </div>
 
 <section id="services">
   <div class="wrap">
-    <h2>Nos services</h2>
-    <p class="sub">Un interlocuteur unique pour faire fonctionner, sécuriser et faire évoluer votre informatique.</p>
-    <div class="grid">
-      <div class="card"><div class="k">Maintenance</div><h3>Un parc qui tourne</h3><p>Entretien préventif des postes, serveurs et NAS, mises à jour, surveillance des disques et des sauvegardes, intervention en cas de panne.</p></div>
-      <div class="card"><div class="k">Conseil</div><h3>Les bons choix techniques</h3><p>Audit de l'existant, stockage et sauvegarde, sécurité, réseau, choix du matériel et des logiciels adaptés à votre budget.</p></div>
-      <div class="card"><div class="k">Support</div><h3>Une aide quand il faut</h3><p>Assistance à distance ou sur site, résolution d'incidents, accompagnement des utilisateurs et prise en main de vos outils.</p></div>
-      <div class="card"><div class="k">Développement</div><h3>Des outils à votre mesure</h3><p>Conception d'outils logiciels sur mesure : applications web, automatisation, intégrations entre vos logiciels, scripts et services.</p></div>
+    <div class="head"><div class="mono"><b>01</b> — Services</div><h2>Ce que nous<br><span class="c">faisons</span></h2></div>
+    <p class="statement">Un interlocuteur unique pour <em>faire fonctionner</em>, <em>sécuriser</em> et <em>faire évoluer</em> votre informatique — sans jargon, sans dépendance.</p>
+    <div class="rows" style="margin-top:72px">
+      <div class="row"><div class="mono"><b>01.1</b></div><h3>Maintenance</h3><p>Entretien préventif des postes, serveurs et NAS, mises à jour, surveillance des disques et des sauvegardes, intervention en cas de panne.</p></div>
+      <div class="row"><div class="mono"><b>01.2</b></div><h3>Conseil</h3><p>Audit de l'existant, stockage et sauvegarde, sécurité, réseau, choix du matériel et des logiciels adaptés à votre budget.</p></div>
+      <div class="row"><div class="mono"><b>01.3</b></div><h3>Support</h3><p>Assistance à distance ou sur site, résolution d'incidents, accompagnement et prise en main de vos outils.</p></div>
+      <div class="row"><div class="mono"><b>01.4</b></div><h3>Développement</h3><p>Outils logiciels sur mesure : applications web, automatisation, intégrations entre vos logiciels, scripts et services.</p></div>
     </div>
   </div>
 </section>
 
 <section id="nasos">
   <div class="wrap">
-    <h2>Notre produit : Hiersoft <span style="color:var(--cyan)">Nas</span><span style="color:var(--amber)">OS</span></h2>
-    <p class="sub">Un système qui transforme un PC ou un serveur en NAS complet, simple comme ZimaOS et aussi solide que TrueNAS. Vos données restent chez vous, sans abonnement ni cloud imposé.</p>
-    <div class="grid">
-      <div class="card"><h3>Stockage fiable</h3><p>ZFS et Btrfs, RAID, compression, chiffrement, snapshots automatiques et corbeille.</p></div>
-      <div class="card"><h3>Partages et applications</h3><p>Partages Windows, macOS et Linux, iSCSI, liens sécurisés et applications Docker en un clic.</p></div>
-      <div class="card"><h3>Accès distant sécurisé</h3><p>VPN WireGuard intégré, certificat HTTPS automatique, pare-feu et alertes par e-mail.</p></div>
+    <div class="head"><div class="mono"><b>02</b> — Produit</div><h2>Hiersoft<br><span class="c">Nas</span><span class="a">OS</span></h2></div>
+    <p class="statement" style="margin-bottom:64px">Transforme un PC ou un serveur en <em>NAS complet</em> : simple comme ZimaOS, solide comme TrueNAS. Vos données restent chez vous, <em>sans abonnement</em> ni cloud imposé.</p>
+    <figure class="shot">
+      <img src="img/dashboard.png" alt="Tableau de bord de supervision de Hiersoft NasOS">
+      <figcaption class="mono">Supervision en temps réel — processeur, mémoire, stockage, disques, événements</figcaption>
+    </figure>
+    <div class="gallery">
+      <figure class="shot"><img src="img/storage.png" alt="Gestionnaire de stockage"><figcaption class="mono">Gestionnaire de stockage</figcaption></figure>
+      <figure class="shot"><img src="img/catalog.png" alt="Catalogue d'applications"><figcaption class="mono">Applications en un clic</figcaption></figure>
+      <figure class="shot"><img src="img/files.png" alt="Explorateur de fichiers"><figcaption class="mono">Explorateur de fichiers</figcaption></figure>
     </div>
-    <details class="card" style="margin-top:18px">
-      <summary style="cursor:pointer;font-weight:600">Configuration requise</summary>
-      <div class="tablewrap" style="margin-top:14px">
-        <table>
-          <tr><th></th><th>Minimum</th><th>Recommandé</th></tr>
-          <tr><td>Processeur</td><td>x86-64, 2 cœurs</td><td>4 cœurs ou plus</td></tr>
-          <tr><td>Mémoire (Btrfs)</td><td>4 Go</td><td>8 Go</td></tr>
-          <tr><td>Mémoire (ZFS)</td><td>4 Go</td><td>8 Go, 16 Go avec beaucoup d'applications</td></tr>
-          <tr><td>Disque système</td><td>32 Go (SSD conseillé)</td><td>64 Go ; 128 Go pour y installer les applications</td></tr>
-          <tr><td>Démarrage</td><td colspan="2">BIOS ou UEFI, Secure Boot désactivé</td></tr>
-        </table>
-      </div>
+    <div class="specs">
+      <div class="spec"><div class="mono"><b>A</b> Stockage</div><h4>ZFS &amp; Btrfs</h4><p>RAID, compression, chiffrement, datasets, import de volumes existants.</p></div>
+      <div class="spec"><div class="mono"><b>B</b> Protection</div><h4>Snapshots &amp; corbeille</h4><p>Snapshots quotidiens, « Versions précédentes » sous Windows, corbeille des partages.</p></div>
+      <div class="spec"><div class="mono"><b>C</b> Partage</div><h4>SMB, NFS, iSCSI</h4><p>Windows, macOS (Time Machine), Linux et liens de partage sécurisés.</p></div>
+      <div class="spec"><div class="mono"><b>D</b> Applications</div><h4>Catalogue Docker</h4><p>Jellyfin, Nextcloud, Immich, Home Assistant… installées et réglées en un clic.</p></div>
+      <div class="spec"><div class="mono"><b>E</b> Accès distant</div><h4>VPN WireGuard</h4><p>QR code pour le téléphone, DNS dynamique, certificat HTTPS automatique.</p></div>
+      <div class="spec"><div class="mono"><b>F</b> Médias</div><h4>Photos &amp; vidéos</h4><p>Lecture vidéo et musique dans le navigateur, rangement des photos par date, doublons.</p></div>
+    </div>
+    <details class="req">
+      <summary>Configuration requise</summary>
+      <table>
+        <tr><th></th><th>Minimum</th><th>Recommandé</th></tr>
+        <tr><td>Processeur</td><td>x86-64, 2 cœurs</td><td>4 cœurs ou plus</td></tr>
+        <tr><td>Mémoire (Btrfs)</td><td>4 Go</td><td>8 Go</td></tr>
+        <tr><td>Mémoire (ZFS)</td><td>4 Go</td><td>8 Go, 16 Go avec beaucoup d'applications</td></tr>
+        <tr><td>Disque système</td><td>32 Go (SSD conseillé)</td><td>64 Go ; 128 Go pour y installer les applications</td></tr>
+        <tr><td>Démarrage</td><td colspan="2">BIOS ou UEFI, Secure Boot désactivé</td></tr>
+      </table>
     </details>
-    <p style="margin-top:22px"><a class="btn" href="#contact">Demander une démonstration ou une installation</a></p>
   </div>
 </section>
 
 <section id="approche">
   <div class="wrap">
-    <h2>Notre approche</h2>
-    <p class="sub">Des solutions durables, compréhensibles et dont vous gardez la maîtrise.</p>
-    <div class="grid">
-      <div class="card"><div class="k">Proximité</div><h3>Un vrai interlocuteur</h3><p>Nous prenons le temps de comprendre votre activité avant de proposer une solution.</p></div>
-      <div class="card"><div class="k">Indépendance</div><h3>Vos données vous appartiennent</h3><p>Nous privilégions les logiciels ouverts et les solutions hébergées chez vous.</p></div>
-      <div class="card"><div class="k">Fiabilité</div><h3>Des technologies éprouvées</h3><p>Debian, ZFS, Btrfs, WireGuard : des bases solides, utilisées par les plus grands.</p></div>
+    <div class="head"><div class="mono"><b>03</b> — Approche</div><h2>Notre<br><span class="c">méthode</span></h2></div>
+    <div class="trio">
+      <div><div class="mono"><b>03.1</b></div><h3>Proximité</h3><p>Un vrai interlocuteur, qui prend le temps de comprendre votre activité avant de proposer une solution.</p></div>
+      <div><div class="mono"><b>03.2</b></div><h3>Indépendance</h3><p>Vos données vous appartiennent : logiciels ouverts et solutions hébergées chez vous.</p></div>
+      <div><div class="mono"><b>03.3</b></div><h3>Fiabilité</h3><p>Debian, ZFS, Btrfs, WireGuard : des bases éprouvées, utilisées par les plus grands.</p></div>
     </div>
   </div>
 </section>
 
 <section id="contact" class="contact">
   <div class="wrap">
-    <h2>Contact</h2>
-    <p class="sub" style="margin:0 auto 16px">Une question, un devis, une intervention ou un projet logiciel ? Écrivez-nous.</p>
-    <a class="btn primary" href="mailto:hiersoft@salade.io">hiersoft@salade.io</a>
+    <div class="mono"><b>04</b> — Contact</div>
+    <h2>Parlons de<br><span class="c">votre projet.</span></h2>
+    <p style="color:var(--muted);max-width:560px;margin:0 0 30px">Une question, un devis, une intervention, une démonstration de NasOS ou un outil à développer ? Écrivez-nous.</p>
+    <a class="mail" href="mailto:hiersoft@salade.io">hiersoft@salade.io →</a>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <span>© 2026 Hiersoft</span>
-    <span><a href="mentions-legales.html">Mentions légales</a></span>
+    <span class="mono">© 2026 Hiersoft</span>
+    <a class="mono" href="mentions-legales.html">Mentions légales</a>
   </div>
 </footer>
 </body>
