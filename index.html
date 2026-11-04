@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hiersoft — services informatiques et logiciels</title>
-<meta name="description" content="Hiersoft : maintenance, conseil, support et développement d'outils logiciels. Éditeur de Hiersoft NasOS, système de stockage réseau.">
+<title>Hiersoft — le matériel d'hier avec le logiciel d'aujourd'hui</title>
+<meta name="description" content="Hiersoft redonne de la valeur au matériel informatique existant grâce à des solutions logicielles innovantes : reconversion de PC et serveurs, logiciels sur mesure, maintenance. Éditeur de Hiersoft NasOS.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/rajdhani-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -34,9 +34,10 @@ nav a.cta{color:var(--bg);background:var(--cyan);border:0;margin-left:14px}
 nav a.cta::after{display:none}
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 0 60px;position:relative;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 78% 40%,rgba(63,208,255,.13),transparent 70%),linear-gradient(transparent 95%,rgba(63,208,255,.05) 95%) 0 0/100% 48px;pointer-events:none}
-.hero h1{font:300 clamp(56px,8.6vw,138px)/.88 var(--display);max-width:66%;letter-spacing:-.01em;margin:22px 0 0;text-transform:uppercase}
+.hero h1{font:300 clamp(48px,7.2vw,118px)/.9 var(--display);max-width:72%;letter-spacing:-.01em;margin:22px 0 0;text-transform:uppercase}
 .hero h1 span{display:block}
 .hero h1 .c{color:var(--cyan)}
+.hero h1 .a{color:var(--amber)}
 .hero h1 .indent{padding-left:1.15em}
 .hero-foot{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;margin-top:56px;align-items:end;border-top:1px solid var(--line2);padding-top:28px}
 .hero-foot p{margin:0;font-size:19px;color:var(--muted);max-width:560px}
@@ -116,7 +117,8 @@ footer a:hover{color:var(--text)}
   <div class="wrap">
     <a class="logo" href="#"><img src="favicon.svg" alt="">Hiersoft</a>
     <nav>
-      <a href="#services">Services</a>
+      <a href="#revalorisation">Revalorisation</a>
+      <a href="#solutions">Solutions</a>
       <a href="#nasos">NasOS</a>
       <a href="#approche">Approche</a>
       <a class="cta" href="#contact">Contact</a>
@@ -126,38 +128,50 @@ footer a:hover{color:var(--text)}
 
 <div class="hero">
   <div class="wrap">
-    <div class="mono reveal"><b>●</b> Hiersoft — services informatiques &amp; logiciels</div>
+    <div class="mono reveal"><b>●</b> Hiersoft — revalorisation du matériel informatique</div>
     <h1>
-      <span class="reveal">Vos données.</span>
-      <span class="reveal indent c">Chez vous.</span>
-      <span class="reveal">Bien</span>
-      <span class="reveal indent">gérées.</span>
+      <span class="reveal">Le matériel</span>
+      <span class="reveal indent a">d'hier</span>
+      <span class="reveal">avec le logiciel</span>
+      <span class="reveal indent c">d'aujourd'hui.</span>
     </h1>
     <div class="hero-foot reveal">
-      <p>Maintenance, conseil, support et développement d'outils sur mesure pour les particuliers, les indépendants et les petites entreprises. Éditeur de <strong>Hiersoft NasOS</strong>, notre système de stockage réseau.</p>
-      <div class="btns"><a class="btn solid" href="#services">Nos services</a><a class="btn" href="#nasos">Découvrir NasOS</a></div>
+      <p>Vos ordinateurs et serveurs ont encore beaucoup à donner. Hiersoft leur offre une <strong>seconde vie</strong> grâce à des solutions logicielles innovantes : moins de déchets, moins de dépenses, et des machines qui redeviennent utiles.</p>
+      <div class="btns"><a class="btn solid" href="#solutions">Nos solutions</a><a class="btn" href="#nasos">Découvrir NasOS</a></div>
     </div>
   </div>
   <img class="hero-logo" src="logo.svg" alt="">
 </div>
 
-<section id="services">
+<section id="revalorisation">
   <div class="wrap">
-    <div class="head"><div class="mono"><b>01</b> — Services</div><h2>Ce que nous<br><span class="c">faisons</span></h2></div>
-    <p class="statement">Un interlocuteur unique pour <em>faire fonctionner</em>, <em>sécuriser</em> et <em>faire évoluer</em> votre informatique — sans jargon, sans dépendance.</p>
+    <div class="head"><div class="mono"><b>01</b> — Revalorisation</div><h2>Rien ne se jette,<br><span class="c">tout se</span> <span class="a">relance</span></h2></div>
+    <p class="statement">Un ordinateur de dix ans n'est presque jamais <em>trop vieux</em> : c'est son logiciel qui l'est devenu. Avec le bon système et les bons outils, il redevient <em>rapide, sûr et utile</em>.</p>
     <div class="rows" style="margin-top:72px">
-      <div class="row"><div class="mono"><b>01.1</b></div><h3>Maintenance</h3><p>Entretien préventif des postes, serveurs et NAS, mises à jour, surveillance des disques et des sauvegardes, intervention en cas de panne.</p></div>
-      <div class="row"><div class="mono"><b>01.2</b></div><h3>Conseil</h3><p>Audit de l'existant, stockage et sauvegarde, sécurité, réseau, choix du matériel et des logiciels adaptés à votre budget.</p></div>
-      <div class="row"><div class="mono"><b>01.3</b></div><h3>Support</h3><p>Assistance à distance ou sur site, résolution d'incidents, accompagnement et prise en main de vos outils.</p></div>
-      <div class="row"><div class="mono"><b>01.4</b></div><h3>Développement</h3><p>Outils logiciels sur mesure : applications web, automatisation, intégrations entre vos logiciels, scripts et services.</p></div>
+      <div class="row"><div class="mono"><b>01.1</b></div><h3>Le constat</h3><p>Fin de support d'un système, logiciels toujours plus lourds, mises à jour refusées : du matériel en parfait état est mis au rebut alors que ses composants fonctionnent encore.</p></div>
+      <div class="row"><div class="mono"><b>01.2</b></div><h3>Notre réponse</h3><p>Plutôt que remplacer, nous adaptons le logiciel au matériel : systèmes légers et maintenus, nouvelles fonctions (stockage, sauvegarde, serveur, multimédia) et outils développés pour tirer le meilleur de chaque machine.</p></div>
+      <div class="row"><div class="mono"><b>01.3</b></div><h3>L'impact</h3><p>L'essentiel de l'empreinte environnementale d'un ordinateur vient de sa fabrication. Prolonger sa durée de vie, c'est le geste le plus efficace — et le plus économique — pour votre budget comme pour la planète.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="solutions">
+  <div class="wrap">
+    <div class="head"><div class="mono"><b>02</b> — Solutions</div><h2>Une seconde vie,<br><span class="c">sur mesure</span></h2></div>
+    <p class="statement">Du diagnostic à la remise en service, un interlocuteur unique pour <em>réemployer</em>, <em>moderniser</em> et <em>faire durer</em> votre parc informatique.</p>
+    <div class="rows" style="margin-top:72px">
+      <div class="row"><div class="mono"><b>02.1</b></div><h3>Diagnostic</h3><p>Inventaire et audit de vos machines : ce qui peut être réutilisé, ce qui mérite une petite mise à niveau (SSD, mémoire), et à quoi chaque appareil peut servir demain.</p></div>
+      <div class="row"><div class="mono"><b>02.2</b></div><h3>Reconversion</h3><p>Un vieux PC devient NAS, serveur de sauvegarde, serveur domotique ou multimédia, poste léger sous Linux ou borne dédiée — installé, configuré et prêt à l'emploi.</p></div>
+      <div class="row"><div class="mono"><b>02.3</b></div><h3>Logiciel innovant</h3><p>Développement d'outils sur mesure pensés pour le matériel existant : applications web, automatisation, intégrations, et intelligence artificielle exécutée localement, sans cloud.</p></div>
+      <div class="row"><div class="mono"><b>02.4</b></div><h3>Maintenance</h3><p>Mises à jour, surveillance des disques et des sauvegardes, assistance à distance ou sur site : pour que le matériel revalorisé dure le plus longtemps possible.</p></div>
     </div>
   </div>
 </section>
 
 <section id="nasos">
   <div class="wrap">
-    <div class="head"><div class="mono"><b>02</b> — Produit</div><h2>Hiersoft<br><span class="c">Nas</span><span class="a">OS</span></h2></div>
-    <p class="statement" style="margin-bottom:64px">Transforme un PC ou un serveur en <em>NAS complet</em> : simple comme ZimaOS, solide comme TrueNAS. Vos données restent chez vous, <em>sans abonnement</em> ni cloud imposé.</p>
+    <div class="head"><div class="mono"><b>03</b> — Produit</div><h2>Hiersoft<br><span class="c">Nas</span><span class="a">OS</span></h2></div>
+    <p class="statement" style="margin-bottom:64px">Notre revalorisation en action : NasOS transforme un <em>PC ou un serveur existant</em> en <em>NAS complet</em>, simple comme ZimaOS, solide comme TrueNAS. Vos données restent chez vous, <em>sans abonnement</em> ni cloud imposé.</p>
     <figure class="shot">
       <img src="img/dashboard.png" alt="Tableau de bord de supervision de Hiersoft NasOS">
       <figcaption class="mono">Supervision en temps réel — processeur, mémoire, stockage, disques, événements</figcaption>
@@ -191,20 +205,20 @@ footer a:hover{color:var(--text)}
 
 <section id="approche">
   <div class="wrap">
-    <div class="head"><div class="mono"><b>03</b> — Approche</div><h2>Notre<br><span class="c">méthode</span></h2></div>
+    <div class="head"><div class="mono"><b>04</b> — Approche</div><h2>Notre<br><span class="c">méthode</span></h2></div>
     <div class="trio">
-      <div><div class="mono"><b>03.1</b></div><h3>Proximité</h3><p>Un vrai interlocuteur, qui prend le temps de comprendre votre activité avant de proposer une solution.</p></div>
-      <div><div class="mono"><b>03.2</b></div><h3>Indépendance</h3><p>Vos données vous appartiennent : logiciels ouverts et solutions hébergées chez vous.</p></div>
-      <div><div class="mono"><b>03.3</b></div><h3>Fiabilité</h3><p>Debian, ZFS, Btrfs, WireGuard : des bases éprouvées, utilisées par les plus grands.</p></div>
+      <div><div class="mono"><b>04.1</b></div><h3>Durabilité</h3><p>Réutiliser avant de remplacer : chaque machine remise en service est un appareil de moins à fabriquer.</p></div>
+      <div><div class="mono"><b>04.2</b></div><h3>Indépendance</h3><p>Logiciels ouverts et solutions hébergées chez vous : vos données et votre matériel vous appartiennent.</p></div>
+      <div><div class="mono"><b>04.3</b></div><h3>Fiabilité</h3><p>Debian, ZFS, Btrfs, WireGuard : des bases modernes et éprouvées, qui tournent très bien sur du matériel ancien.</p></div>
     </div>
   </div>
 </section>
 
 <section id="contact" class="contact">
   <div class="wrap">
-    <div class="mono"><b>04</b> — Contact</div>
-    <h2>Parlons de<br><span class="c">votre projet.</span></h2>
-    <p style="color:var(--muted);max-width:560px;margin:0 0 30px">Une question, un devis, une intervention, une démonstration de NasOS ou un outil à développer ? Écrivez-nous.</p>
+    <div class="mono"><b>05</b> — Contact</div>
+    <h2>Donnons une<br><span class="c">seconde vie</span><br>à votre matériel.</h2>
+    <p style="color:var(--muted);max-width:560px;margin:0 0 30px">Un vieux PC qui dort dans un placard, un parc à renouveler, une démonstration de NasOS ou un outil à développer ? Écrivez-nous.</p>
     <a class="mail" href="mailto:hiersoft@salade.io">hiersoft@salade.io →</a>
   </div>
 </section>
