@@ -46,6 +46,7 @@ nav a.cta::after{display:none}
 .hero-foot{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;margin-top:56px;align-items:end;border-top:1px solid var(--line2);padding-top:28px}
 .hero-foot p{margin:0;font-size:19px;color:var(--muted);max-width:560px}
 .hero-foot p strong{color:var(--text);font-weight:600}
+.download-iso{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin:0 0 64px 260px}.download-iso .mono{max-width:520px;line-height:1.6}.btn svg{flex:none}
 .btns{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;font:600 14px var(--display);letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--cyan);color:var(--cyan);transition:.2s}
 .btn:hover{background:rgba(63,208,255,.1)}
@@ -138,6 +139,7 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
   .hero h1{max-width:none}
   .hero-foot,.head,.row{grid-template-columns:1fr;gap:14px}
   .statement{margin-left:0}
+  .download-iso{margin-left:0}
   .gallery,.specs,.trio{grid-template-columns:1fr}
   .spec,.spec:nth-child(3n+1),.trio div,.trio div+div{padding:24px 0;border-left:0}
   .btns{justify-content:flex-start}
@@ -216,7 +218,8 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
 <section id="nasos">
   <div class="wrap">
     <div class="head"><div class="mono"><b>03</b> — Product<img class="product-logo" src="../nasos-logo.svg" alt="Logo Xavius NasOS"></div><h2>Xavius<br><span class="c">Nas</span><span class="a">OS</span></h2></div>
-    <p class="statement" style="margin-bottom:64px">Our approach in action: Xavius NasOS turns an <em>existing PC or server</em> into a <em>complete NAS</em>, easy to use and dependable every day. Your data stays with you, <em>with no subscription</em> and no forced cloud.</p>
+    <p class="statement" style="margin-bottom:28px">Our approach in action: Xavius NasOS turns an <em>existing PC or server</em> into a <em>complete NAS</em>, easy to use and dependable every day. Your data stays with you, <em>with no subscription</em> and no forced cloud.</p>
+    <div class="download-iso"><a class="btn solid" href="https://github.com/Shattxx/nasos-releases/releases/latest" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg> Download the ISO</a><span class="mono">Latest version · hybrid BIOS + UEFI ISO, about 1.4 GB · write it to a USB stick (Rufus, balenaEtcher) · Secure Boot disabled</span></div>
     <figure class="shot">
       <img src="../img/dashboard.png" alt="Xavius NasOS monitoring dashboard">
       <figcaption class="mono">Real-time monitoring — processor, memory, storage, disks, events</figcaption>
