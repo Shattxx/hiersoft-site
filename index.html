@@ -92,7 +92,37 @@ td:first-child{color:var(--muted)}
 footer{border-top:1px solid var(--line2);padding:30px 0}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 footer a:hover{color:var(--text)}
+/* Bandeau défilant, barre de progression, en-tête au défilement */
+.ticker{border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);overflow:hidden;white-space:nowrap;background:var(--bg2)}
+.ticker-track{display:inline-flex;gap:0;padding:18px 0}
+.ticker-track span{font:500 clamp(18px,2.2vw,28px) var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:0 28px}
+.ticker-track span::after{content:"◆";color:var(--amber);font-size:.55em;margin-left:56px;vertical-align:middle}
+.ticker-track span:nth-child(3n+2){color:var(--cyan)}
+.progress{position:fixed;top:0;left:0;height:2px;width:100%;background:linear-gradient(90deg,var(--cyan),var(--amber));transform-origin:0 50%;transform:scaleX(0);z-index:30}
+header{transition:background .3s,box-shadow .3s}
+header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.shot{transition:transform .45s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .45s}
+.shot img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.shot:hover{border-color:var(--cyan);box-shadow:0 18px 50px rgba(63,208,255,.12)}
+.shot:hover img{transform:scale(1.015)}
+.row{position:relative}
+.row::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:100%;background:var(--amber);transform:scaleX(0);transform-origin:0 50%;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.row:hover::before{transform:scaleX(1)}
+.row:hover h3{color:var(--cyan)}
+.row h3{transition:color .25s}
+.spec,.trio div{transition:background .3s}
+.spec:hover,.trio div:hover{background:linear-gradient(180deg,rgba(63,208,255,.05),transparent)}
+.btn{position:relative;overflow:hidden}
+.btn::before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.22) 50%,transparent 70%);transform:translateX(-120%);transition:transform .7s}
+.btn:hover::before{transform:translateX(120%)}
 @media (prefers-reduced-motion:no-preference){
+  .ticker-track{animation:ticker 38s linear infinite}
+  .ticker:hover .ticker-track{animation-play-state:paused}
+  @keyframes ticker{to{transform:translateX(-50%)}}
+  .hero-logo{animation:float 7s ease-in-out infinite;will-change:transform}
+  @keyframes float{0%,100%{translate:0 0}50%{translate:0 -14px}}
+  .js .sr{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+  .js .sr.in{opacity:1;transform:none}
   .reveal{animation:up .9s cubic-bezier(.2,.7,.2,1) both}
   .hero h1 span:nth-child(2){animation-delay:.08s}.hero h1 span:nth-child(3){animation-delay:.16s}.hero h1 span:nth-child(4){animation-delay:.24s}
   @keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
@@ -114,6 +144,7 @@ footer a:hover{color:var(--text)}
 </style>
 </head>
 <body>
+<div class="progress" aria-hidden="true"></div>
 <header>
   <div class="wrap">
     <a class="logo" href="#"><img src="hiersoft-favicon.svg" alt="">Hiersoft</a>
@@ -143,6 +174,11 @@ footer a:hover{color:var(--text)}
   </div>
   <img class="hero-logo" src="hiersoft-logo.svg" alt="">
 </div>
+
+<div class="ticker" aria-hidden="true"><div class="ticker-track">
+  <span>Réemploi</span><span>Reconversion de PC</span><span>Xavius NasOS</span><span>Sauvegarde</span><span>Linux</span><span>Support</span><span>Gestion de parc</span><span>Open source</span><span>Maintenance</span>
+  <span>Réemploi</span><span>Reconversion de PC</span><span>Xavius NasOS</span><span>Sauvegarde</span><span>Linux</span><span>Support</span><span>Gestion de parc</span><span>Open source</span><span>Maintenance</span>
+</div></div>
 
 <section id="revalorisation">
   <div class="wrap">
@@ -234,5 +270,50 @@ footer a:hover{color:var(--text)}
     <a class="mono" href="mentions-legales.html">Mentions légales</a>
   </div>
 </footer>
+<script>
+(() => {
+  const root = document.documentElement;
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // En-tête et barre de progression au défilement.
+  const header = document.querySelector("header");
+  const bar = document.querySelector(".progress");
+  const onScroll = () => {
+    const max = root.scrollHeight - innerHeight;
+    header.classList.toggle("scrolled", scrollY > 20);
+    bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+  };
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+  if (calm || !("IntersectionObserver" in window)) return;
+  // Apparition des blocs au défilement, en cascade dans un même groupe.
+  root.classList.add("js");
+  const groups = [".head > *", ".statement", ".rows .row", ".shot", ".specs .spec", ".trio > div", "details.req", ".contact h2", ".contact p", ".contact .mail"];
+  const els = [];
+  for (const sel of groups) {
+    document.querySelectorAll(sel).forEach((el, i) => {
+      if (el.closest(".hero")) return;
+      el.classList.add("sr");
+      el.style.setProperty("--d", `${Math.min(i % 6, 5) * 0.08}s`);
+      els.push(el);
+    });
+  }
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+  els.forEach((el) => io.observe(el));
+  // Logo de l'accueil : léger mouvement qui suit la souris.
+  const logo = document.querySelector(".hero-logo");
+  if (logo && matchMedia("(pointer: fine)").matches) {
+    let raf = 0;
+    addEventListener("mousemove", (ev) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const x = (ev.clientX / innerWidth - 0.5) * 18, y = (ev.clientY / innerHeight - 0.5) * 18;
+        logo.style.transform = `translateY(-62%) perspective(800px) rotateY(${x}deg) rotateX(${-y}deg)`;
+      });
+    });
+  }
+})();
+</script>
 </body>
 </html>
