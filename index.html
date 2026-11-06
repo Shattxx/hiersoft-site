@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hiersoft — le matériel d'hier avec le logiciel d'aujourd'hui</title>
 <meta name="description" content="Hiersoft redonne de la valeur au matériel informatique existant grâce à des solutions logicielles innovantes : reconversion de PC et serveurs, logiciels sur mesure, maintenance, support, gestion de parc et migration vers l'open source. Éditeur de Xavius NasOS.">
+<link rel="alternate" hreflang="fr" href="https://hiersoft.salade.io/">
+<link rel="alternate" hreflang="en" href="https://hiersoft.salade.io/en/">
+<link rel="alternate" hreflang="x-default" href="https://hiersoft.salade.io/">
 <link rel="icon" href="hiersoft-favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/rajdhani-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -28,6 +31,7 @@ header .wrap{display:flex;align-items:stretch;height:62px}
 .logo img{width:30px;height:30px}
 nav{display:flex}
 nav a{display:flex;align-items:center;padding:0 20px;font:500 14px var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);border-left:1px solid var(--line2);position:relative;transition:color .2s}
+nav a.lang{font-family:var(--mono);letter-spacing:.1em;color:var(--amber)}
 nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--amber);transform:scaleX(0);transition:transform .25s}
 nav a:hover{color:var(--text)}nav a:hover::after{transform:scaleX(1)}
 nav a.cta{color:var(--bg);background:var(--cyan);border:0;margin-left:14px}
@@ -129,7 +133,7 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
 }
 @media (max-width:1100px){.hero-logo{display:none}.hero h1{max-width:none}}
 @media (max-width:900px){
-  nav a:not(.cta){display:none}
+  nav a:not(.cta):not(.lang){display:none}
   .hero-logo{display:none}
   .hero h1{max-width:none}
   .hero-foot,.head,.row{grid-template-columns:1fr;gap:14px}
@@ -154,6 +158,7 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
       <a href="#nasos">Xavius NasOS</a>
       <a href="#approche">Approche</a>
       <a class="cta" href="#contact">Contact</a>
+      <a class="lang" href="en/" hreflang="en" lang="en" title="English">EN</a>
     </nav>
   </div>
 </header>
@@ -315,5 +320,6 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
   }
 })();
 </script>
+<script>document.querySelectorAll("a.lang").forEach(a=>a.addEventListener("click",()=>{try{localStorage.setItem("lang",a.hreflang)}catch(e){}}))</script>
 </body>
 </html>

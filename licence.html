@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Licence Xavius NasOS — Hiersoft</title>
 <meta name="description" content="Licence de Xavius NasOS : Business Source License 1.1. Gratuit sur votre matériel, licence commerciale pour les services hébergés.">
+<link rel="alternate" hreflang="fr" href="https://hiersoft.salade.io/licence.html">
+<link rel="alternate" hreflang="en" href="https://hiersoft.salade.io/en/license.html">
+<link rel="alternate" hreflang="x-default" href="https://hiersoft.salade.io/licence.html">
 <link rel="icon" href="hiersoft-favicon.svg" type="image/svg+xml">
 <style>
 :root{--bg:#071624;--bg2:#0b2033;--card:#0e2a40;--line:#1d4762;--text:#e6f3fa;--muted:#8fb0c3;--cyan:#3fd0ff;--amber:#ffb547}
@@ -55,6 +58,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
   h1{font-size:32px}
   nav{display:none}
 }
+nav{display:flex;gap:18px}nav a.lang{color:var(--amber);font-family:"Share Tech Mono",ui-monospace,monospace}
 </style>
 </head>
 <body>
@@ -62,7 +66,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
   <div class="wrap">
     <img src="hiersoft-favicon.svg" alt="">
     <a class="brand" href="./" style="color:var(--text)">Hiersoft</a>
-    <nav><a href="./">Accueil</a></nav>
+    <nav><a href="./">Accueil</a><a class="lang" href="en/license.html" hreflang="en" lang="en" title="English">EN</a></nav>
   </div>
 </header>
 <section>
@@ -81,5 +85,6 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
   </div>
 </section>
 <footer><div class="wrap"><span>© 2026 Hiersoft</span><a href="./">Retour à l'accueil</a></div></footer>
+<script>document.querySelectorAll("a.lang").forEach(a=>a.addEventListener("click",()=>{try{localStorage.setItem("lang",a.hreflang)}catch(e){}}))</script>
 </body>
 </html>
