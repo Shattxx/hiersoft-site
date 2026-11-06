@@ -36,6 +36,7 @@ nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;bac
 nav a:hover{color:var(--text)}nav a:hover::after{transform:scaleX(1)}
 nav a.cta{color:var(--bg);background:var(--cyan);border:0;margin-left:14px}
 nav a.cta::after{display:none}
+@media (max-width:1180px){nav a{padding:0 12px;font-size:13px;letter-spacing:.1em}nav a.cta{margin-left:8px}}
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 0 60px;position:relative;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 78% 40%,rgba(63,208,255,.13),transparent 70%),linear-gradient(transparent 95%,rgba(63,208,255,.05) 95%) 0 0/100% 48px;pointer-events:none}
 .hero h1{font:300 clamp(48px,7.2vw,118px)/.9 var(--display);max-width:72%;letter-spacing:-.01em;margin:22px 0 0;text-transform:uppercase}
@@ -47,6 +48,7 @@ nav a.cta::after{display:none}
 .hero-foot p{margin:0;font-size:19px;color:var(--muted);max-width:560px}
 .hero-foot p strong{color:var(--text);font-weight:600}
 .download-iso{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin:0 0 64px 260px}.download-iso .mono{max-width:560px;line-height:1.6}.download-iso .mono b{color:var(--text)}.download-iso .mono a{color:var(--cyan);border-bottom:1px solid var(--line);white-space:nowrap}.btn svg{flex:none}.dl-count{font:600 15px var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);white-space:nowrap}
+.pledge{display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap;margin-top:56px;padding:34px 36px;border:1px solid var(--line2);border-left:3px solid var(--amber);background:linear-gradient(90deg,rgba(255,181,71,.06),transparent 70%)}.pledge h3{font:500 26px/1.1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px}.pledge p{margin:0;color:var(--muted);max-width:620px}
 .btns{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;font:600 14px var(--display);letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--cyan);color:var(--cyan);transition:.2s}
 .btn:hover{background:rgba(63,208,255,.1)}
@@ -159,6 +161,7 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
       <a href="#solutions">Solutions</a>
       <a href="#nasos">Xavius NasOS</a>
       <a href="#approche">Approach</a>
+      <a href="#engagements">Commitments</a>
       <a class="cta" href="#contact">Contact</a>
       <a class="lang" href="../" hreflang="fr" lang="fr" title="Français">FR</a>
     </nav>
@@ -183,8 +186,8 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
 </div>
 
 <div class="ticker" aria-hidden="true"><div class="ticker-track">
-  <span>Reuse</span><span>PC repurposing</span><span>Xavius NasOS</span><span>Backup</span><span>Linux</span><span>Support</span><span>IT asset management</span><span>Open source</span><span>Maintenance</span><span>AI agents</span>
-  <span>Reuse</span><span>PC repurposing</span><span>Xavius NasOS</span><span>Backup</span><span>Linux</span><span>Support</span><span>IT asset management</span><span>Open source</span><span>Maintenance</span><span>AI agents</span>
+  <span>Reuse</span><span>PC repurposing</span><span>Xavius NasOS</span><span>Backup</span><span>Linux</span><span>Support</span><span>IT asset management</span><span>Open source</span><span>Maintenance</span><span>Donations to charities</span><span>AI agents</span>
+  <span>Reuse</span><span>PC repurposing</span><span>Xavius NasOS</span><span>Backup</span><span>Linux</span><span>Support</span><span>IT asset management</span><span>Open source</span><span>Maintenance</span><span>Donations to charities</span><span>AI agents</span>
 </div></div>
 
 <section id="revalorisation">
@@ -266,9 +269,23 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
   </div>
 </section>
 
+<section id="engagements">
+  <div class="wrap">
+    <div class="head"><div class="mono"><b>05</b> — Commitments</div><h2>Reuse,<br><span class="c">for the</span> <span class="a">benefit of all</span></h2></div>
+    <p class="statement">A computer a business no longer needs can still <em>equip a charity</em>, a school or a family. Giving hardware a second life also means <em>putting it in good hands</em>.</p>
+    <div class="rows" style="margin-top:72px">
+      <div class="row"><div class="mono"><b>05.1</b></div><h3>Donations to charities</h3><p>Recovered hardware that does not find a second life with our clients is refurbished, fitted with an up-to-date free operating system, then donated to charities, schools and social economy organisations.</p></div>
+      <div class="row"><div class="mono"><b>05.2</b></div><h3>Data wiped</h3><p>Before any reuse or donation, drives are securely wiped: nothing that belonged to the previous owner leaves our hands.</p></div>
+      <div class="row"><div class="mono"><b>05.3</b></div><h3>Repair before discarding</h3><p>A machine that can no longer be used as is gives its parts to another one; only what is truly beyond use goes to electronic waste recycling.</p></div>
+      <div class="row"><div class="mono"><b>05.4</b></div><h3>Digital sobriety</h3><p>Free software, with no subscription or forced obsolescence, and a website with no trackers or advertising cookies: we apply to ourselves what we recommend.</p></div>
+    </div>
+    <div class="pledge"><div><h3>Give or receive hardware</h3><p>Are you a business renewing its computers? A charity short of equipment? Write to us: we connect the two.</p></div><div class="btns"><a class="btn solid" href="mailto:hiersoft@salade.io?subject=Hardware%20donation">I have hardware to give</a><a class="btn" href="mailto:hiersoft@salade.io?subject=Hardware%20needed%20for%20a%20charity">We are a charity</a></div></div>
+  </div>
+</section>
+
 <section id="contact" class="contact">
   <div class="wrap">
-    <div class="mono"><b>05</b> — Contact</div>
+    <div class="mono"><b>06</b> — Contact</div>
     <h2>Let's give your<br>hardware a<br><span class="c">second life</span>.</h2>
     <p style="color:var(--muted);max-width:560px;margin:0 0 30px">An old PC sleeping in a cupboard, equipment to renew, a Xavius NasOS demo or a tool to build? Write to us.</p>
     <a class="mail" href="mailto:hiersoft@salade.io">hiersoft@salade.io →</a>
