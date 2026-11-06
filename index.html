@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hiersoft — le matériel d'hier avec le logiciel d'aujourd'hui</title>
 <meta name="description" content="Hiersoft redonne de la valeur au matériel informatique existant grâce à des solutions logicielles innovantes : reconversion de PC et serveurs, logiciels sur mesure, maintenance, support, gestion de parc et migration vers l'open source. Éditeur de Xavius NasOS.">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="hiersoft-favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/rajdhani-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face{font-family:Rajdhani;font-weight:300;font-display:swap;src:url(fonts/rajdhani-latin-300-normal.woff2) format("woff2")}
@@ -51,6 +51,7 @@ nav a.cta::after{display:none}
 section{padding:120px 0;border-top:1px solid var(--line2)}
 .head{display:grid;grid-template-columns:220px 1fr;gap:40px;margin-bottom:64px}
 .head h2{font:300 clamp(40px,5.5vw,76px)/.95 var(--display);text-transform:uppercase;margin:0}
+.product-logo{display:block;width:104px;height:104px;margin-top:22px}
 .head h2 .c{color:var(--cyan)}.head h2 .a{color:var(--amber)}
 .statement{font:300 clamp(26px,3vw,40px)/1.25 var(--display);color:var(--muted);max-width:1000px;margin:0 0 0 260px}
 .statement em{font-style:normal;color:var(--text)}
@@ -115,7 +116,7 @@ footer a:hover{color:var(--text)}
 <body>
 <header>
   <div class="wrap">
-    <a class="logo" href="#"><img src="favicon.svg" alt="">Hiersoft</a>
+    <a class="logo" href="#"><img src="hiersoft-favicon.svg" alt="">Hiersoft</a>
     <nav>
       <a href="#revalorisation">Revalorisation</a>
       <a href="#solutions">Solutions</a>
@@ -140,7 +141,7 @@ footer a:hover{color:var(--text)}
       <div class="btns"><a class="btn solid" href="#solutions">Nos solutions</a><a class="btn" href="#nasos">Découvrir Xavius NasOS</a></div>
     </div>
   </div>
-  <img class="hero-logo" src="logo.svg" alt="">
+  <img class="hero-logo" src="hiersoft-logo.svg" alt="">
 </div>
 
 <section id="revalorisation">
@@ -173,7 +174,7 @@ footer a:hover{color:var(--text)}
 
 <section id="nasos">
   <div class="wrap">
-    <div class="head"><div class="mono"><b>03</b> — Produit</div><h2>Xavius<br><span class="c">Nas</span><span class="a">OS</span></h2></div>
+    <div class="head"><div class="mono"><b>03</b> — Produit<img class="product-logo" src="nasos-logo.svg" alt="Logo Xavius NasOS"></div><h2>Xavius<br><span class="c">Nas</span><span class="a">OS</span></h2></div>
     <p class="statement" style="margin-bottom:64px">Notre revalorisation en action : Xavius NasOS transforme un <em>PC ou un serveur existant</em> en <em>NAS complet</em>, simple à prendre en main et solide au quotidien. Vos données restent chez vous, <em>sans abonnement</em> ni cloud imposé.</p>
     <figure class="shot">
       <img src="img/dashboard.png" alt="Tableau de bord de supervision de Xavius NasOS">
