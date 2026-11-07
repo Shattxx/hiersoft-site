@@ -50,6 +50,7 @@ nav a.cta::after{display:none}
 .download-iso{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin:0 0 64px 260px}.download-iso .mono{max-width:560px;line-height:1.6}.download-iso .mono b{color:var(--text)}.download-iso .mono a{color:var(--cyan);border-bottom:1px solid var(--line);white-space:nowrap}.btn svg{flex:none}.dl-count{font:600 15px var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);white-space:nowrap}
 .pledge{display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap;margin-top:56px;padding:34px 36px;border:1px solid var(--line2);border-left:3px solid var(--amber);background:linear-gradient(90deg,rgba(255,181,71,.06),transparent 70%)}.pledge h3{font:500 26px/1.1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px}.pledge p{margin:0;color:var(--muted);max-width:620px}
 .support-nasos{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin:-40px 0 64px 25%}.support-nasos .mono{max-width:560px;line-height:1.6}.support-nasos .btn{border-color:var(--amber);color:var(--amber)}.support-nasos .btn:hover{background:var(--amber);color:var(--bg)}
+.drive-feature{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start;margin:64px 0 0;padding:34px 36px;border:1px solid var(--line2);border-left:3px solid var(--cyan);background:linear-gradient(90deg,rgba(63,208,255,.07),transparent 70%)}.drive-feature>svg{color:var(--cyan)}.drive-feature .mono b{color:var(--amber)}.drive-feature h3{font:500 30px/1.1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:8px 0 4px}.drive-feature h3 small{display:block;font-size:16px;letter-spacing:.12em;color:var(--muted);margin-top:6px}.drive-feature p{color:var(--muted);margin:14px 0;max-width:780px}.drive-feature ul{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 24px}.drive-feature li::before{content:"◆";color:var(--amber);font-size:.6em;margin-right:10px;vertical-align:middle}
 .btns{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;font:600 14px var(--display);letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--cyan);color:var(--cyan);transition:.2s}
 .btn:hover{background:rgba(63,208,255,.1)}
@@ -144,6 +145,7 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
   .statement{margin-left:0}
   .download-iso{margin-left:0}
   .support-nasos{margin-left:0}
+  .drive-feature{grid-template-columns:1fr;padding:26px 22px}.drive-feature ul{grid-template-columns:1fr}
   .gallery,.specs,.trio{grid-template-columns:1fr}
   .spec,.spec:nth-child(3n+1),.trio div,.trio div+div{padding:24px 0;border-left:0}
   .btns{justify-content:flex-start}
@@ -188,8 +190,8 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
 </div>
 
 <div class="ticker" aria-hidden="true"><div class="ticker-track">
-  <span>Reuse</span><span>PC repurposing</span><span>Xavius NasOS</span><span>Backup</span><span>Linux</span><span>Support</span><span>IT asset management</span><span>Open source</span><span>Maintenance</span><span>Donations to charities</span><span>AI agents</span>
-  <span>Reuse</span><span>PC repurposing</span><span>Xavius NasOS</span><span>Backup</span><span>Linux</span><span>Support</span><span>IT asset management</span><span>Open source</span><span>Maintenance</span><span>Donations to charities</span><span>AI agents</span>
+  <span>Reuse</span><span>PC repurposing</span><span>Xavius NasOS</span><span>Xavius Drive</span><span>Backup</span><span>Linux</span><span>Support</span><span>IT asset management</span><span>Open source</span><span>Maintenance</span><span>Donations to charities</span><span>AI agents</span>
+  <span>Reuse</span><span>PC repurposing</span><span>Xavius NasOS</span><span>Xavius Drive</span><span>Backup</span><span>Linux</span><span>Support</span><span>IT asset management</span><span>Open source</span><span>Maintenance</span><span>Donations to charities</span><span>AI agents</span>
 </div></div>
 
 <section id="revalorisation">
@@ -236,6 +238,7 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
       <figure class="shot"><img src="../img/catalog.png" alt="App catalog"><figcaption class="mono">One-click apps</figcaption></figure>
       <figure class="shot"><img src="../img/files.png" alt="File explorer"><figcaption class="mono">File explorer</figcaption></figure>
     </div>
+    <div class="drive-feature" id="xavius-drive"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><div><div class="mono"><b>New</b></div><h3>Xavius Drive<small>Your private cloud, on your NAS</small></h3><p>Give your team, clients or family an online file space, like a cloud storage service but hosted at your place: they sign in from the browser and find their personal folder and only the shared folders you open to them. Each account has its own quota and no access to the apps or to the NAS administration.</p><ul><li>Personal folder with quota</li><li>Shared folders of your choice, read-only or read-write</li><li>Upload, preview, recycle bin and share links</li><li>Your data stays with you, no subscription</li></ul></div></div>
     <div class="specs">
       <div class="spec"><div class="mono"><b>A</b> Storage</div><h4>ZFS &amp; Btrfs</h4><p>RAID, compression, encryption, datasets, import of existing volumes.</p></div>
       <div class="spec"><div class="mono"><b>B</b> Protection</div><h4>Snapshots &amp; recycle bin</h4><p>Daily snapshots, Windows "Previous versions", recycle bin for shares.</p></div>
