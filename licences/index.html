@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Gestionnaire des licences</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--text:#1c2632;--muted:#677788;--line:#dce2e9;--pri:#0b6bcb;--pri-text:#fff;--bad:#c62828;--ok:#2e7d32;--warn:#b26a00}
+@media (prefers-color-scheme:dark){:root{--bg:#0e131a;--card:#17202b;--text:#e5ecf3;--muted:#8d9cac;--line:#29343f;--pri:#4ea1f3;--pri-text:#04121f;--bad:#ef6b6b;--ok:#6cc070;--warn:#e0a84a}}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--text)}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:16px}
+h1{font-size:19px;margin:0;flex:1 1 auto}
+h2{font-size:15px;margin:0 0 12px}
+main{display:grid;gap:16px;padding:0 16px 40px;max-width:1200px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+input,textarea,button,select{font:inherit;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:7px;padding:7px 10px}
+input,textarea{width:100%}
+button{cursor:pointer;white-space:nowrap}
+button.pri{background:var(--pri);color:var(--pri-text);border-color:var(--pri)}
+button.bad{color:var(--bad)}
+button:disabled{opacity:.5;cursor:default}
+.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+label.f{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+label.chk{display:flex;gap:6px;align-items:center}
+label.chk input{width:auto}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.muted{color:var(--muted)}.small{font-size:12.5px}.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.tag{display:inline-block;font-size:12px;padding:1px 7px;border-radius:999px;border:1px solid var(--line)}
+.tag.bad{color:var(--bad);border-color:var(--bad)}.tag.ok{color:var(--ok);border-color:var(--ok)}.tag.warn{color:var(--warn);border-color:var(--warn)}
+.table{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:500;color:var(--muted)}
+#msg{min-height:22px}
+#msg.err{color:var(--bad)}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>Licences Xavius NasOS Pro</h1>
+  <input id="q" type="search" placeholder="Rechercher : client, e-mail, NAS, licence" style="max-width:340px">
+  <button id="reload">Actualiser</button>
+  <button id="logout" class="hidden">Se déconnecter</button>
+</header>
+<main>
+  <section class="card" id="login">
+    <h2>Connexion</h2>
+    <p class="small muted">Ce gestionnaire lit et modifie le registre privé <span class="mono">Shattxx/nasos-licences</span> avec un jeton GitHub personnel. Le jeton reste dans ce navigateur, il n'est envoyé qu'à GitHub.</p>
+    <p class="small muted">Jeton « fine-grained » : dépôt <span class="mono">nasos-licences</span> uniquement, permissions <em>Contents : Read and write</em> et <em>Actions : Read and write</em>.</p>
+    <div class="row">
+      <input id="token" type="password" placeholder="github_pat_…" autocomplete="off" style="max-width:420px">
+      <label class="chk small"><input id="remember" type="checkbox" checked> mémoriser sur cet appareil</label>
+      <button class="pri" id="connect">Se connecter</button>
+    </div>
+  </section>
+
+  <div id="app" class="hidden" style="display:grid;gap:16px">
+    <section class="card">
+      <h2>Nouvelle licence</h2>
+      <form id="create">
+        <div class="grid">
+          <label class="f">Client (nom ou société)<input name="customer" required maxlength="120"></label>
+          <label class="f">E-mail<input name="email" type="email" required></label>
+          <label class="f">Identifiant du NAS<input name="machine" required placeholder="XXXX-XXXX-XXXX-XXXX" pattern="[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}" class="mono"></label>
+          <label class="f">Note<input name="note" maxlength="500" placeholder="facultatif"></label>
+        </div>
+        <input type="hidden" name="pending">
+        <div class="row" style="margin-top:10px">
+          <label class="chk"><input name="send_email" type="checkbox" checked> envoyer la clé par e-mail</label>
+          <button class="pri" id="createBtn">Créer la licence</button>
+          <span class="small muted">L'identifiant s'affiche sur le NAS du client, dans Système › Licence.</span>
+        </div>
+      </form>
+      <div id="msg" class="small"></div>
+    </section>
+
+    <section class="card hidden" id="pendingCard">
+      <h2>Paiements Stripe en attente</h2>
+      <p class="small muted">Payés, mais sans identifiant de NAS valide : demandez-le au client, puis créez la licence.</p>
+      <div class="table"><table><thead><tr><th>Client</th><th>Identifiant saisi</th><th>Date</th><th></th></tr></thead><tbody id="pending"></tbody></table></div>
+    </section>
+
+    <section class="card">
+      <div class="row" style="justify-content:space-between"><h2 id="count">Licences</h2><span id="runs" class="small muted"></span></div>
+      <div class="table"><table><thead><tr><th>Client</th><th>NAS</th><th>Licence</th><th>Émise</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+    </section>
+  </div>
+</main>
+<script>
+const REPO = "Shattxx/nasos-licences";
+const FILE = "licences.json";
+const KEY = "nasos-licences-token";
+const $ = (s) => document.querySelector(s);
+const el = (tag, text, cls) => { const e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const day = (t) => (t ? new Date(t * 1000).toLocaleDateString("fr-FR") : "");
+let token = "";
+let registry = { licences: [], pending: [] };
+let sha = null;
+
+function store() {
+  try { return localStorage.getItem(KEY) || sessionStorage.getItem(KEY) || ""; } catch { return ""; }
+}
+function save(t, remember) {
+  try { localStorage.removeItem(KEY); sessionStorage.removeItem(KEY); (remember ? localStorage : sessionStorage).setItem(KEY, t); } catch {}
+}
+function msg(text, err = false) { $("#msg").textContent = text; $("#msg").className = "small" + (err ? " err" : ""); }
+
+async function gh(path, opts = {}) {
+  const r = await fetch("https://api.github.com/repos/" + REPO + path, {
+    method: opts.method || "GET",
+    headers: { authorization: "Bearer " + token, accept: "application/vnd.github+json", "x-github-api-version": "2022-11-28" },
+    body: opts.body ? JSON.stringify(opts.body) : undefined,
+  });
+  if (r.status === 204) return null;
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) { const e = new Error(d.message || r.statusText); e.status = r.status; throw e; }
+  return d;
+}
+const b64decode = (b) => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\n/g, "")), (c) => c.charCodeAt(0)));
+const b64encode = (s) => { const bytes = new TextEncoder().encode(s); let bin = ""; bytes.forEach((b) => (bin += String.fromCharCode(b))); return btoa(bin); };
+
+async function load() {
+  try {
+    const f = await gh("/contents/" + FILE);
+    registry = JSON.parse(b64decode(f.content));
+    sha = f.sha;
+  } catch (e) {
+    if (e.status !== 404) throw e;
+    registry = { licences: [], pending: [] };
+    sha = null;
+  }
+  registry.licences ??= [];
+  registry.pending ??= [];
+  render();
+  runs();
+}
+
+async function writeRegistry(message) {
+  const r = await gh("/contents/" + FILE, { method: "PUT", body: { message, content: b64encode(JSON.stringify(registry, null, 2) + "\n"), ...(sha ? { sha } : {}) } });
+  sha = r.content.sha;
+}
+
+function render() {
+  const q = $("#q").value.trim().toLowerCase();
+  const list = registry.licences.filter((l) => !q || [l.customer, l.email, l.machine, l.lid, l.note].some((v) => String(v || "").toLowerCase().includes(q)));
+  $("#count").textContent = `Licences (${registry.licences.length})`;
+  const rows = $("#rows");
+  rows.replaceChildren();
+  for (const l of list) {
+    const tr = el("tr");
+    const who = el("td");
+    who.append(el("div", l.customer), el("div", l.email, "small muted"));
+    if (l.note) who.append(el("div", l.note, "small muted"));
+    const nas = el("td", l.machine, "mono");
+    const lic = el("td");
+    lic.append(el("div", l.lid, "mono small"));
+    const state = l.revoked ? el("span", "révoquée le " + day(l.revoked), "tag bad") : el("span", "valide", "tag ok");
+    lic.append(state, " ");
+    lic.append(el("span", String(l.source || "manuel").startsWith("stripe") ? "Stripe" : "manuelle", "tag"));
+    if (l.updates_until) lic.append(el("div", "mises à jour jusqu'au " + day(l.updates_until), "small muted"));
+    const tools = el("td");
+    const copy = el("button", "Copier la clé");
+    copy.onclick = async () => { await navigator.clipboard.writeText(l.key); copy.textContent = "Copiée"; setTimeout(() => (copy.textContent = "Copier la clé"), 1500); };
+    const resend = el("button", "Renvoyer l'e-mail");
+    resend.onclick = () => dispatch("resend.yml", { lid: l.lid }, `Renvoyer la clé à ${l.email} ?`, "E-mail en cours d'envoi.");
+    const rev = el("button", l.revoked ? "Rétablir" : "Révoquer", l.revoked ? "" : "bad");
+    rev.onclick = () => toggleRevoke(l);
+    tools.append(copy, " ", resend, " ", rev);
+    tr.append(who, nas, lic, el("td", day(l.issued)), tools);
+    rows.append(tr);
+  }
+  if (!list.length) { const tr = el("tr"); const td = el("td", q ? "Aucun résultat." : "Aucune licence pour l'instant.", "muted"); td.colSpan = 5; tr.append(td); rows.append(tr); }
+
+  $("#pendingCard").classList.toggle("hidden", !registry.pending.length);
+  const p = $("#pending");
+  p.replaceChildren();
+  for (const x of registry.pending) {
+    const tr = el("tr");
+    const who = el("td"); who.append(el("div", x.customer), el("div", x.email, "small muted"));
+    const use = el("button", "Créer la licence", "pri");
+    use.onclick = () => {
+      const f = $("#create");
+      f.customer.value = x.customer; f.email.value = x.email; f.machine.value = ""; f.pending.value = x.session;
+      f.machine.focus();
+      msg("Saisissez l'identifiant du NAS donné par le client, puis « Créer la licence ».");
+    };
+    tr.append(who, el("td", x.given || "—", "mono"), el("td", day(x.created)), el("td")); tr.lastChild.append(use);
+    p.append(tr);
+  }
+}
+
+async function toggleRevoke(l) {
+  const q = l.revoked ? "Rétablir cette licence ?" : `Révoquer la licence de ${l.customer} ? Le NAS repassera en essai terminé à sa prochaine vérification (sous 7 jours, s'il a accès à Internet).`;
+  if (!confirm(q)) return;
+  try {
+    await load();
+    const cur = registry.licences.find((x) => x.lid === l.lid);
+    cur.revoked = cur.revoked ? null : Math.floor(Date.now() / 1000);
+    await writeRegistry((cur.revoked ? "Révocation de " : "Rétablissement de ") + cur.lid);
+    render();
+    msg(cur.revoked ? "Licence révoquée : la liste publique sera mise à jour dans une minute." : "Licence rétablie.");
+  } catch (e) { msg("Erreur : " + e.message, true); }
+}
+
+async function dispatch(workflow, inputs, question, done) {
+  if (question && !confirm(question)) return;
+  try {
+    await gh(`/actions/workflows/${workflow}/dispatches`, { method: "POST", body: { ref: "main", inputs } });
+    msg(done);
+    setTimeout(runs, 4000);
+  } catch (e) { msg("Erreur : " + e.message, true); }
+}
+
+async function runs() {
+  try {
+    const d = await gh("/actions/runs?per_page=5");
+    const r = d.workflow_runs.find((x) => ["create-licence", "resend", "stripe-sync"].some((n) => x.path.includes(n)) && x.event === "workflow_dispatch") || d.workflow_runs[0];
+    const box = $("#runs"); box.replaceChildren();
+    if (!r) return;
+    const label = r.status !== "completed" ? "en cours" : r.conclusion === "success" ? "réussie" : "échouée";
+    const a = el("a", `Dernière opération : ${r.name}, ${label}`); a.href = r.html_url; a.target = "_blank"; a.rel = "noreferrer";
+    box.append(a);
+    if (r.status !== "completed") setTimeout(async () => { await runs(); if (r.name === "Nouvelle licence") await load(); }, 5000);
+  } catch {}
+}
+
+$("#create").onsubmit = async (e) => {
+  e.preventDefault();
+  const f = e.target;
+  const machine = f.machine.value.trim().toUpperCase();
+  const inputs = { customer: f.customer.value.trim(), email: f.email.value.trim(), machine, note: f.note.value.trim(), send_email: f.send_email.checked ? "true" : "false", pending: f.pending.value };
+  $("#createBtn").disabled = true;
+  try {
+    await gh("/actions/workflows/create-licence.yml/dispatches", { method: "POST", body: { ref: "main", inputs } });
+    msg(`Création en cours pour ${inputs.customer} (une minute environ)…`);
+    f.reset(); f.send_email.checked = true;
+    setTimeout(runs, 4000);
+  } catch (err) { msg("Erreur : " + err.message, true); }
+  $("#createBtn").disabled = false;
+};
+
+async function start(t) {
+  token = t;
+  try {
+    await load();
+    $("#login").classList.add("hidden");
+    $("#app").classList.remove("hidden");
+    $("#logout").classList.remove("hidden");
+  } catch (e) {
+    $("#login").classList.remove("hidden");
+    msg("");
+    alert(e.status === 401 || e.status === 404 ? "Jeton refusé, ou sans accès au dépôt nasos-licences." : "Erreur : " + e.message);
+  }
+}
+$("#connect").onclick = () => { const t = $("#token").value.trim(); if (!t) return; save(t, $("#remember").checked); start(t); };
+$("#logout").onclick = () => { try { localStorage.removeItem(KEY); sessionStorage.removeItem(KEY); } catch {} location.reload(); };
+$("#reload").onclick = () => token && load().catch((e) => msg("Erreur : " + e.message, true));
+$("#q").oninput = render;
+const saved = store();
+if (saved) start(saved);
+</script>
+</body>
+</html>
