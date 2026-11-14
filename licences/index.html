@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Gestionnaire des licences</title>
+<script src="https://cdn.jsdelivr.net/npm/argon2-browser@1.18.0/dist/argon2-bundled.min.js" integrity="sha384-XOR3aNvHciLPIf6r+2glkrmbBbLmIJ1EChMXjw8eBKBf8gE0rDq1TyUNuRdorOqi" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/kdbxweb@2.1.1/dist/kdbxweb.min.js" integrity="sha384-0Y3bHDd08H+t0Rqvpg4kiFHWoibOiIbza8kSLcuGD96EUk5bq6tR6lpw1tHmxX3C" crossorigin="anonymous"></script>
 <style>
 :root{--bg:#f4f6f9;--card:#fff;--text:#1c2632;--muted:#677788;--line:#dce2e9;--pri:#0b6bcb;--pri-text:#fff;--bad:#c62828;--ok:#2e7d32;--warn:#b26a00}
 @media (prefers-color-scheme:dark){:root{--bg:#0e131a;--card:#17202b;--text:#e5ecf3;--muted:#8d9cac;--line:#29343f;--pri:#4ea1f3;--pri-text:#04121f;--bad:#ef6b6b;--ok:#6cc070;--warn:#e0a84a}}
@@ -43,18 +45,35 @@ th{font-weight:500;color:var(--muted)}
   <h1>Licences Xavius NasOS Pro</h1>
   <input id="q" type="search" placeholder="Rechercher : client, e-mail, NAS, licence" style="max-width:340px">
   <button id="reload">Actualiser</button>
+  <span id="kpState" class="tag hidden"></span>
+  <button id="kpSave" class="hidden">Enregistrer la base KeePass</button>
   <button id="logout" class="hidden">Se déconnecter</button>
 </header>
 <main>
+  <section class="card" id="keepass">
+    <h2>Base KeePass</h2>
+    <p class="small muted">Ouvrez votre base KeePass (.kdbx) : le jeton GitHub y est lu automatiquement, et la clé de chaque licence y est rangée (groupe « Xavius NasOS Pro / Licences »). La base est déchiffrée dans ce navigateur uniquement ; ni elle ni votre mot de passe maître ne quittent l'ordinateur.</p>
+    <div class="grid">
+      <label class="f">Base KeePass<input id="kpFile" type="file" accept=".kdbx"></label>
+      <label class="f">Mot de passe maître<input id="kpPass" type="password" autocomplete="off"></label>
+      <label class="f">Fichier clé (facultatif)<input id="kpKeyFile" type="file"></label>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <button class="pri" id="kpOpen">Ouvrir la base</button>
+      <span id="kpMsg" class="small muted"></span>
+    </div>
+  </section>
+
   <section class="card" id="login">
     <h2>Connexion</h2>
     <p class="small muted">Ce gestionnaire lit et modifie le registre privé <span class="mono">Shattxx/nasos-licences</span> avec un jeton GitHub personnel. Le jeton reste dans ce navigateur, il n'est envoyé qu'à GitHub.</p>
     <p class="small muted">Jeton « fine-grained » : dépôt <span class="mono">nasos-licences</span> uniquement, permissions <em>Contents : Read and write</em> et <em>Actions : Read and write</em>.</p>
     <div class="row">
       <input id="token" type="password" placeholder="github_pat_…" autocomplete="off" style="max-width:420px">
-      <label class="chk small"><input id="remember" type="checkbox" checked> mémoriser sur cet appareil</label>
+      <label class="chk small"><input id="remember" type="checkbox"> mémoriser sur cet appareil</label>
       <button class="pri" id="connect">Se connecter</button>
     </div>
+    <p class="small muted">Avec une base KeePass ouverte, le jeton saisi ici y est rangé (entrée « GitHub — gestionnaire des licences ») : plus besoin de le mémoriser dans le navigateur.</p>
   </section>
 
   <div id="app" class="hidden" style="display:grid;gap:16px">
@@ -136,6 +155,7 @@ async function load() {
   registry.pending ??= [];
   render();
   runs();
+  kpSync();
 }
 
 async function writeRegistry(message) {
@@ -242,11 +262,147 @@ $("#create").onsubmit = async (e) => {
   $("#createBtn").disabled = false;
 };
 
+// ---------------------------------------------------------------- KeePass
+const KP_ROOT = "Xavius NasOS Pro";
+const KP_LICENCES = "Licences";
+const KP_TOKEN = "GitHub — gestionnaire des licences";
+let kp = null; // { db, handle, name, dirty }
+
+if (window.kdbxweb && window.argon2) {
+  // Bases KDBX 4 (Argon2d / Argon2id), format par défaut de KeePass 2.4x et KeePassXC.
+  kdbxweb.CryptoEngine.setArgon2Impl((password, salt, memory, iterations, length, parallelism, type, version) =>
+    argon2.hash({ pass: new Uint8Array(password), salt: new Uint8Array(salt), mem: memory, time: iterations, hashLen: length, parallelism, type, version }).then((r) => r.hash),
+  );
+}
+const field = (entry, name) => { const v = entry.fields.get(name); return v == null ? "" : typeof v === "string" ? v : v.getText(); };
+const kpMsg = (t, err = false) => { $("#kpMsg").textContent = t; $("#kpMsg").style.color = err ? "var(--bad)" : ""; };
+
+function kpGroup(parent, name) {
+  return parent.groups.find((g) => g.name === name) || kp.db.createGroup(parent, name);
+}
+function kpFind(group, title) {
+  return group.entries.find((e) => field(e, "Title") === title);
+}
+function kpAllEntries(group, out = []) {
+  out.push(...group.entries);
+  group.groups.forEach((g) => kpAllEntries(g, out));
+  return out;
+}
+function kpMark() {
+  kp.dirty = true;
+  $("#kpState").textContent = `KeePass : ${kp.name} (modifiée, à enregistrer)`;
+  $("#kpState").className = "tag warn";
+  $("#kpSave").classList.remove("hidden");
+}
+
+async function kpOpen() {
+  if (!window.kdbxweb) return kpMsg("Bibliothèque KeePass indisponible (connexion à cdn.jsdelivr.net ?).", true);
+  // Ouverture par le sélecteur du système quand il existe : la base pourra être réenregistrée à sa place.
+  let file = $("#kpFile").files[0];
+  let handle = null;
+  if (!file && window.showOpenFilePicker) {
+    try {
+      [handle] = await showOpenFilePicker({ types: [{ description: "Base KeePass", accept: { "application/octet-stream": [".kdbx"] } }] });
+      file = await handle.getFile();
+    } catch { return; }
+  }
+  if (!file) return kpMsg("Choisissez votre base KeePass (.kdbx).", true);
+  const pass = $("#kpPass").value;
+  const keyFile = $("#kpKeyFile").files[0];
+  kpMsg("Ouverture…");
+  try {
+    const cred = new kdbxweb.Credentials(kdbxweb.ProtectedValue.fromString(pass), keyFile ? await keyFile.arrayBuffer() : null);
+    const db = await kdbxweb.Kdbx.load(await file.arrayBuffer(), cred);
+    kp = { db, handle, name: file.name, dirty: false };
+    $("#kpPass").value = "";
+    $("#keepass").classList.add("hidden");
+    $("#kpState").textContent = `KeePass : ${file.name}`;
+    $("#kpState").className = "tag ok";
+    const root = kpGroup(db.getDefaultGroup(), KP_ROOT);
+    const entry = kpFind(root, KP_TOKEN);
+    const t = entry && field(entry, "Password");
+    if (t && !token) start(t);
+    else if (token) { kpSaveToken(token); kpSync(); }
+  } catch (e) {
+    kpMsg(e && e.code === "InvalidKey" ? "Mot de passe maître ou fichier clé incorrect." : "Base illisible : " + (e.message || e), true);
+  }
+}
+
+function kpSaveToken(t) {
+  if (!kp) return;
+  const root = kpGroup(kp.db.getDefaultGroup(), KP_ROOT);
+  const e = kpFind(root, KP_TOKEN) || kp.db.createEntry(root);
+  if (field(e, "Password") === t) return;
+  e.fields.set("Title", KP_TOKEN);
+  e.fields.set("UserName", "Shattxx");
+  e.fields.set("URL", "https://github.com/Shattxx/nasos-licences");
+  e.fields.set("Password", kdbxweb.ProtectedValue.fromString(t));
+  e.fields.set("Notes", "Jeton fine-grained : dépôt nasos-licences, Contents et Actions en lecture et écriture.");
+  e.times.update();
+  kpMark();
+}
+
+/** Range dans KeePass chaque licence du registre qui n'y est pas encore (ou dont l'état a changé). */
+function kpSync() {
+  if (!kp || !registry.licences.length) return;
+  const group = kpGroup(kpGroup(kp.db.getDefaultGroup(), KP_ROOT), KP_LICENCES);
+  const known = new Map(kpAllEntries(group).map((e) => [field(e, "lid"), e]));
+  let added = 0;
+  for (const l of registry.licences) {
+    const revoked = l.revoked ? `révoquée le ${day(l.revoked)}` : "valide";
+    let e = known.get(l.lid);
+    if (e && field(e, "État") === revoked) continue;
+    if (!e) { e = kp.db.createEntry(group); added++; }
+    e.fields.set("Title", `${l.customer} — ${l.lid}`);
+    e.fields.set("UserName", l.email);
+    e.fields.set("Password", kdbxweb.ProtectedValue.fromString(l.key));
+    e.fields.set("URL", "https://hiersoft.salade.io/licences/");
+    e.fields.set("lid", l.lid);
+    e.fields.set("Identifiant du NAS", l.machine);
+    e.fields.set("État", revoked);
+    e.fields.set("Notes", [`Émise le ${day(l.issued)}`, l.updates_until ? `Mises à jour jusqu'au ${day(l.updates_until)}` : "Mises à jour sans limite", l.note || ""].filter(Boolean).join("\n"));
+    e.times.update();
+    kpMark();
+  }
+  if (added) msg(`${added} licence(s) rangée(s) dans KeePass : pensez à enregistrer la base.`);
+}
+
+async function kpWrite() {
+  if (!kp) return;
+  try {
+    const data = await kp.db.save();
+    if (kp.handle && kp.handle.createWritable) {
+      const w = await kp.handle.createWritable();
+      await w.write(data);
+      await w.close();
+      msg(`Base KeePass enregistrée (${kp.name}).`);
+    } else {
+      // Navigateur sans accès direct aux fichiers : téléchargement de la base à jour.
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([data], { type: "application/octet-stream" }));
+      a.download = kp.name;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+      msg(`Base KeePass téléchargée (${kp.name}) : remplacez l'ancienne par celle-ci.`);
+    }
+    kp.dirty = false;
+    $("#kpState").textContent = `KeePass : ${kp.name}`;
+    $("#kpState").className = "tag ok";
+    $("#kpSave").classList.add("hidden");
+  } catch (e) { msg("Enregistrement de la base impossible : " + (e.message || e), true); }
+}
+
+$("#kpOpen").onclick = kpOpen;
+$("#kpPass").onkeydown = (e) => { if (e.key === "Enter") kpOpen(); };
+$("#kpSave").onclick = kpWrite;
+window.addEventListener("beforeunload", (e) => { if (kp && kp.dirty) { e.preventDefault(); e.returnValue = ""; } });
+
 async function start(t) {
   token = t;
   try {
     await load();
     $("#login").classList.add("hidden");
+    $("#keepass").classList.toggle("hidden", !!kp);
     $("#app").classList.remove("hidden");
     $("#logout").classList.remove("hidden");
   } catch (e) {
@@ -255,7 +411,13 @@ async function start(t) {
     alert(e.status === 401 || e.status === 404 ? "Jeton refusé, ou sans accès au dépôt nasos-licences." : "Erreur : " + e.message);
   }
 }
-$("#connect").onclick = () => { const t = $("#token").value.trim(); if (!t) return; save(t, $("#remember").checked); start(t); };
+$("#connect").onclick = () => {
+  const t = $("#token").value.trim();
+  if (!t) return;
+  if ($("#remember").checked) save(t, true);
+  kpSaveToken(t);
+  start(t);
+};
 $("#logout").onclick = () => { try { localStorage.removeItem(KEY); sessionStorage.removeItem(KEY); } catch {} location.reload(); };
 $("#reload").onclick = () => token && load().catch((e) => msg("Erreur : " + e.message, true));
 $("#q").oninput = render;
