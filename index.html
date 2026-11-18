@@ -156,6 +156,7 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
   .wrap{padding:0 18px}
   td,th{padding:11px 12px}
 }
+.dl-dialog{max-width:520px;width:calc(100% - 32px);padding:0;border:1px solid var(--line);border-left:3px solid var(--cyan);background:var(--bg2);color:var(--text)}.dl-dialog::backdrop{background:rgba(3,10,16,.78)}.dl-dialog form{display:grid;gap:16px;padding:30px 30px 26px}.dl-dialog h3{font:500 26px/1.1 var(--display);margin:0}.dl-dialog p{margin:0;color:var(--muted);line-height:1.6}.dl-dialog p a{color:var(--cyan);border-bottom:1px solid var(--line)}.dl-dialog input{font:16px var(--mono);padding:13px 14px;background:var(--bg);color:var(--text);border:1px solid var(--line);outline:0;width:100%}.dl-dialog input:focus{border-color:var(--cyan)}.dl-dialog .dl-error{color:#ff8a8a}.dl-dialog .dl-actions{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}.dl-dialog .btn{padding:12px 22px;cursor:pointer;background:none;font-family:var(--display)}.dl-dialog .btn.solid{background:var(--cyan)}.dl-dialog .btn:disabled{opacity:.6;cursor:wait}
 </style>
 </head>
 <body>
@@ -230,7 +231,7 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
   <div class="wrap">
     <div class="head"><div class="mono"><b>03</b> — Produit<img class="product-logo" src="nasos-logo.svg" alt="Logo Xavius NasOS"></div><h2>Xavius<br><span class="c">Nas</span><span class="a">OS</span></h2></div>
     <p class="statement" style="margin-bottom:28px">Notre revalorisation en action : Xavius NasOS transforme un <em>PC ou un serveur existant</em> en <em>NAS complet</em>, simple à prendre en main et solide au quotidien. Vos données restent chez vous, <em>sans abonnement</em> ni cloud imposé.</p>
-    <div class="download-iso"><a class="btn solid" id="iso-link" href="https://github.com/Shattxx/nasos-releases/releases/download/v0.1.26/xavius-nasos-0.1.26-amd64.hybrid.iso" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg> Télécharger l'ISO</a><span class="dl-count" id="iso-count" hidden></span><span class="mono">Version <b id="iso-version">0.1.26</b> · ISO hybride BIOS + UEFI, <span id="iso-size">1,4 Go</span> · à copier sur une clé USB (Rufus, balenaEtcher) · Secure Boot désactivé · <a id="iso-sha" href="https://github.com/Shattxx/nasos-releases/releases/download/v0.1.26/xavius-nasos-0.1.26-amd64.hybrid.iso.sha256">SHA-256</a></span></div>
+    <div class="download-iso"><a class="btn solid" id="iso-link" href="#telecharger" data-href="https://github.com/Shattxx/nasos-releases/releases/download/v0.1.26/xavius-nasos-0.1.26-amd64.hybrid.iso"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg> Télécharger l'ISO</a><span class="dl-count" id="iso-count" hidden></span><span class="mono">Version <b id="iso-version">0.1.26</b> · ISO hybride BIOS + UEFI, <span id="iso-size">1,4 Go</span> · à copier sur une clé USB (Rufus, balenaEtcher) · Secure Boot désactivé · <a id="iso-sha" href="https://github.com/Shattxx/nasos-releases/releases/download/v0.1.26/xavius-nasos-0.1.26-amd64.hybrid.iso.sha256">SHA-256</a></span></div>
     <div class="support-nasos"><a class="btn" href="https://buy.stripe.com/6oU3cxaqxdI844h9beco000" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg> Soutenir Xavius NasOS</a><span class="mono">Xavius NasOS est gratuit. Vous pouvez soutenir son développement, du montant de votre choix (paiement sécurisé par Stripe).</span></div>
     <figure class="shot">
       <img src="img/dashboard.png" alt="Tableau de bord de supervision de Xavius NasOS">
@@ -376,7 +377,7 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
     if (latest) {
       const iso = latest.assets.find((x) => x.name.endsWith(".hybrid.iso"));
       const sha = latest.assets.find((x) => x.name === iso.name + ".sha256");
-      document.getElementById("iso-link").href = iso.browser_download_url;
+      document.getElementById("iso-link").dataset.href = iso.browser_download_url;
       if (sha) document.getElementById("iso-sha").href = sha.browser_download_url;
       document.getElementById("iso-version").textContent = latest.tag_name.replace(/^v/, "");
       document.getElementById("iso-size").textContent = (iso.size / 1e9).toLocaleString("fr-FR", { maximumFractionDigits: 1 }) + " Go";
@@ -389,6 +390,56 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
       c.hidden = false;
     }
   } catch (e) {}
+})();
+</script>
+<dialog class="dl-dialog" id="dl-dialog" aria-labelledby="dl-title">
+  <form id="dl-form" novalidate>
+    <div class="mono"><b>ISO</b> — Téléchargement</div>
+    <h3 id="dl-title">Votre adresse e-mail</h3>
+    <p>Indiquez votre adresse e-mail pour télécharger Xavius NasOS. Elle sert uniquement au suivi des téléchargements, n'est ni revendue ni transmise, et vous pouvez en demander la suppression à tout moment. <a href="mentions-legales.html#donnees">En savoir plus</a></p>
+    <input type="email" id="dl-email" name="email" required maxlength="254" autocomplete="email" placeholder="vous@exemple.fr" aria-label="Adresse e-mail">
+    <p class="dl-error" id="dl-error" role="alert" hidden></p>
+    <div class="dl-actions"><button type="button" class="btn" id="dl-cancel">Annuler</button><button type="submit" class="btn solid" id="dl-go">Télécharger</button></div>
+  </form>
+</dialog>
+<script>
+// Téléchargement de l'ISO : adresse e-mail demandée d'abord (enregistrée par le Worker
+// nasos-telechargements), puis lien de l'ISO ouvert.
+(() => {
+  const link = document.getElementById("iso-link");
+  const dlg = document.getElementById("dl-dialog");
+  const form = document.getElementById("dl-form");
+  const input = document.getElementById("dl-email");
+  const error = document.getElementById("dl-error");
+  const go = document.getElementById("dl-go");
+  const show = (text) => { error.textContent = text || ""; error.hidden = !text; };
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    show("");
+    dlg.showModal();
+    input.focus();
+  });
+  document.getElementById("dl-cancel").addEventListener("click", () => dlg.close());
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = input.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { show("Cette adresse e-mail n'est pas valide."); input.focus(); return; }
+    go.disabled = true;
+    show("");
+    try {
+      const version = (document.getElementById("iso-version") || {}).textContent || "";
+      const r = await fetch('https://nasos-telechargements.shattxx.workers.dev/signup', { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email, lang: 'fr', version }) });
+      if (r.status === 400) { show("Cette adresse e-mail n'est pas valide."); return; }
+      if (!r.ok) throw new Error(String(r.status));
+      dlg.close();
+      form.reset();
+      window.location.href = link.dataset.href;
+    } catch (err) {
+      show('Le service est momentanément indisponible. Réessayez dans quelques instants.');
+    } finally {
+      go.disabled = false;
+    }
+  });
 })();
 </script>
 </body>
