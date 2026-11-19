@@ -243,7 +243,7 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
       <figure class="shot"><img src="../img/files.png" alt="Xavius Drive: a user's space with quota"><figcaption class="mono">Xavius Drive: a user's space</figcaption></figure>
     </div>
     <div class="drive-feature" id="xavius-drive"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><div><div class="mono"><b>New</b></div><h3>Xavius Drive<small>Your private cloud, on your NAS</small></h3><p>Give your team, clients or family an online file space, like a cloud storage service but hosted at your place: they sign in from the browser and find their personal folder and only the shared folders you open to them. Each account has its own quota and no access to the apps or to the NAS administration.</p><ul><li>Personal folder with quota</li><li>Shared folders of your choice, read-only or read-write</li><li>Upload, preview, recycle bin and share links</li><li>Your data stays with you, no subscription</li></ul></div></div>
-    <div class="drive-feature pro-feature" id="pro"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.4 8.3 8 9 4.6-.7 8-4 8-9V6Z"/><path d="m9 12 2 2 4-4"/></svg><div><div class="mono"><b>Pro edition</b></div><h3>Xavius NasOS Pro<small>For businesses and NAS fleets</small></h3><p>The same base as the free edition, updates included, with features for businesses. 30-day free trial, no key and no card needed. After that, a lifetime licence, paid once, tied to your NAS.</p><p class="pro-price"><b>€200</b> for a lifetime licence · <span>Launch offer: <b>50% off</b>, that is <b>€100</b>, for the first 20 buyers, with the code <code>LANCEMENT</code>.</span></p><ul><li>Directory sign-in: LDAPS, Active Directory and SSO</li><li>ZFS replication to another NAS</li><li>VLANs and network routes</li><li>SNMP monitoring and logs sent to a syslog server</li><li>Audit log: who did what, in the interface and on SMB shares</li><li>LTO tape catalogue: find a file across all cartridges and restore just that file</li><li>Lifetime licence, no subscription</li></ul><p><b>How to get it:</b> from the free edition, System › Switch to the Pro edition, without reinstalling or losing your data; or install the <a href="https://github.com/Shattxx/nasos-pro-releases/releases/latest" target="_blank" rel="noopener">Pro ISO</a> directly. To buy the licence, use the "Buy a licence" button in System › Licence on your NAS: the NAS identifier is attached to the payment, and the key is emailed to you once the payment is checked.</p></div></div>
+    <div class="drive-feature pro-feature" id="pro"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.4 8.3 8 9 4.6-.7 8-4 8-9V6Z"/><path d="m9 12 2 2 4-4"/></svg><div><div class="mono"><b>Pro edition</b></div><h3>Xavius NasOS Pro<small>For businesses and NAS fleets</small></h3><p>The same base as the free edition, updates included, with features for businesses. 30-day free trial, no key and no card needed. After that, a lifetime licence, paid once, tied to your NAS.</p><p class="pro-price"><b>€200</b> for a lifetime licence · <span>Launch offer: <b>50% off</b>, that is <b>€100</b>, for the first 20 buyers, with the code <code>LANCEMENT</code>.</span></p><ul><li>Directory sign-in: LDAPS, Active Directory and SSO</li><li>ZFS replication to another NAS</li><li>VLANs and network routes</li><li>SNMP monitoring and logs sent to a syslog server</li><li>Audit log: who did what, in the interface and on SMB shares</li><li>LTO tape catalogue: find a file across all cartridges and restore just that file</li><li>Lifetime licence, no subscription</li></ul><p><b>How to get it:</b> from the free edition, System › Switch to the Pro edition, without reinstalling or losing your data; or install the <a class="iso-ask" data-edition="pro" href="#telecharger" data-href="https://github.com/Shattxx/nasos-pro-releases/releases/latest">Pro ISO</a> directly. To buy the licence, use the "Buy a licence" button in System › Licence on your NAS: the NAS identifier is attached to the payment, and the key is emailed to you once the payment is checked.</p></div></div>
     <div class="specs">
       <div class="spec"><div class="mono"><b>A</b> Storage</div><h4>ZFS &amp; Btrfs</h4><p>RAID, compression, encryption, datasets, import of existing volumes.</p></div>
       <div class="spec"><div class="mono"><b>B</b> Protection</div><h4>Snapshots &amp; recycle bin</h4><p>Daily snapshots, Windows "Previous versions", recycle bin for shares.</p></div>
@@ -407,18 +407,22 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
 // nasos-telechargements), puis lien de l'ISO ouvert.
 (() => {
   const link = document.getElementById("iso-link");
+  let target = link;
   const dlg = document.getElementById("dl-dialog");
   const form = document.getElementById("dl-form");
   const input = document.getElementById("dl-email");
   const error = document.getElementById("dl-error");
   const go = document.getElementById("dl-go");
   const show = (text) => { error.textContent = text || ""; error.hidden = !text; };
-  link.addEventListener("click", (e) => {
+  const ask = (e) => {
     e.preventDefault();
+    target = e.currentTarget;
     show("");
     dlg.showModal();
     input.focus();
-  });
+  };
+  // ISO gratuite et ISO Pro : même demande d'adresse.
+  [link, ...document.querySelectorAll("a.iso-ask")].forEach((a) => a.addEventListener("click", ask));
   document.getElementById("dl-cancel").addEventListener("click", () => dlg.close());
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -427,13 +431,14 @@ header.scrolled{background:rgba(6,18,28,.95);box-shadow:0 10px 30px rgba(0,0,0,.
     go.disabled = true;
     show("");
     try {
-      const version = (document.getElementById("iso-version") || {}).textContent || "";
+      const v = (document.getElementById("iso-version") || {}).textContent || "";
+      const version = target.dataset.edition === "pro" ? "pro-" + v : v;
       const r = await fetch('https://nasos-telechargements.shattxx.workers.dev/signup', { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email, lang: 'en', version }) });
       if (r.status === 400) { show('This e-mail address is not valid.'); return; }
       if (!r.ok) throw new Error(String(r.status));
       dlg.close();
       form.reset();
-      window.location.href = link.dataset.href;
+      window.location.href = target.dataset.href;
     } catch (err) {
       show('The service is temporarily unavailable. Please try again in a moment.');
     } finally {
